@@ -3,7 +3,7 @@ import { Product, GiftSet, CreateProductDto, CreateGiftSetDto } from '../types/a
 import { User, LoginResponse, RegisterData, LoginData } from '../types/auth';
 
 const api = axios.create({
-    baseURL: '/api',
+    baseURL: 'https://gift-sets-greengeek.onrender.com',
     headers: {
         'Content-Type': 'application/json',
     },
