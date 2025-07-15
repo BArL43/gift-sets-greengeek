@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Product, GiftSet, CreateProductDto, CreateGiftSetDto } from '../types/api';
 import { User, LoginResponse, RegisterData, LoginData } from '../types/auth';
 
+const response = await axios.post('https://gift-sets-greengeek.onrender.com/orders/', orderData);
+
 const api = axios.create({
     baseURL: 'https://gift-sets-greengeek.onrender.com',
     headers: {
