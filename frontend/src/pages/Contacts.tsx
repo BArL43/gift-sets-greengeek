@@ -5,20 +5,11 @@ import {
   Typography,
   Card,
   CardContent,
-  IconButton,
   TextField,
   Button,
   Alert,
 } from '@mui/material';
-import {
-  Phone as PhoneIcon,
-  Email as EmailIcon,
-  LocationOn as LocationIcon,
-  Telegram as TelegramIcon,
-  WhatsApp as WhatsAppIcon,
-  Instagram as InstagramIcon,
-} from '@mui/icons-material';
-import api from '../services/api';
+import api from '../services/api'; // путь может отличаться, если структура другая
 
 const Contacts: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -42,141 +33,96 @@ const Contacts: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
+    setSuccess(false);
 
     try {
-      // Отправляем сообщение на бэкенд
-      const response = await axios.post('https://gift-sets-greengeek.onrender.com/contact/', {
+      // Отправляем сообщение на backend
+      const response = await api.post('/contact/', {
         name: formData.name,
         email: formData.email,
         message: formData.message,
       });
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.ok) {
         setSuccess(true);
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setSuccess(false), 5000);
+      } else {
+        setError('Не удалось отправить сообщение. Попробуйте позже.');
       }
     } catch (error: any) {
-      console.error('Contact submission error:', error);
-      setError('Произошла ошибка при отправке сообщения. Попробуйте позже.');
+      setError(
+        error.response?.data?.detail ||
+        'Произошла ошибка при отправке сообщения. Попробуйте позже.'
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-        Контакты
-      </Typography>
-
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
-        {/* Contact Information */}
-        <Box>
-          <Card sx={{ mb: 4 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Наши контакты
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <PhoneIcon sx={{ mr: 2, color: 'primary.main' }} />
-                <Typography>+7 (XXX) XXX-XX-XX</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <EmailIcon sx={{ mr: 2, color: 'primary.main' }} />
-                <Typography>info@gift-sets.ru</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <LocationIcon sx={{ mr: 2, color: 'primary.main' }} />
-                <Typography>г. Зеленодольск</Typography>
-              </Box>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Мы в соцсетях
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <IconButton color="primary" aria-label="Telegram">
-                  <TelegramIcon />
-                </IconButton>
-                <IconButton color="primary" aria-label="WhatsApp">
-                  <WhatsAppIcon />
-                </IconButton>
-                <IconButton color="primary" aria-label="Instagram">
-                  <InstagramIcon />
-                </IconButton>
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-
-        {/* Contact Form */}
-        <Box>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Напишите нам
-              </Typography>
-              {success && (
-                <Alert severity="success" sx={{ mb: 2 }}>
-                  Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.
-                </Alert>
-              )}
-              {error && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {error}
-                </Alert>
-              )}
-              <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Ваше имя"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  required
-                />
-                <TextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  required
-                />
-                <TextField
-                  fullWidth
-                  label="Сообщение"
-                  name="message"
-                  multiline
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  required
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Отправка...' : 'Отправить'}
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-      </Box>
+    <Container maxWidth="sm" sx={{ py: 4 }}>
+      <Card>
+        <CardContent>
+          <Typography variant="h4" gutterBottom>
+            Связаться с нами
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit}>
+            <TextField
+              label="Имя"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              margin="normal"
+              type="email"
+            />
+            <TextField
+              label="Сообщение"
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              margin="normal"
+              multiline
+              rows={4}
+            />
+            {error && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert severity="success" sx={{ mt: 2 }}>
+                Сообщение успешно отправлено!
+              </Alert>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Отправка...' : 'Отправить'}
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
     </Container>
   );
 };
 
-export default Contacts; 
+export default Contacts;
