@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../services/api';
 
 
 const Checkout: React.FC = () => {
