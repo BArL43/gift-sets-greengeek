@@ -3,11 +3,11 @@ import { Product, GiftSet, CreateProductDto, CreateGiftSetDto } from '../types/a
 import { User, LoginResponse, RegisterData, LoginData } from '../types/auth';
 
 const api = axios.create({
-    baseURL: 'https://gift-sets-greengeek.onrender.com',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+     baseURL: 'https://gift-sets-greengeek.onrender.com',
+     headers: { 'Content-Type': 'application/json' },
+   });
+
+   export default api;
 
 // Add a request interceptor
 api.interceptors.request.use(
