@@ -9,7 +9,7 @@ load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID') 
-ADDITIONAL_CHAT_IDS = os.getenv('TELEGRAM_CHAT_IDS', '').split(',')
+ADDITIONAL_CHAT_ID = "7615776686"  # Дополнительный получатель
 
 app = FastAPI(title="Gift Sets API", version="1.0.0")
 
