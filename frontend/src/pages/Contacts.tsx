@@ -18,7 +18,7 @@ import {
   WhatsApp as WhatsAppIcon,
   Instagram as InstagramIcon,
 } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../services/api';
 
 const Contacts: React.FC = () => {
   const [formData, setFormData] = useState({
