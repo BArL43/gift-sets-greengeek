@@ -45,7 +45,7 @@ const Contacts: React.FC = () => {
 
     try {
       // Отправляем сообщение на бэкенд
-      const response = await axios.post('http://localhost:8000/contact/', {
+      const response = await axios.post('https://gift-sets-greengeek.onrender.com/contact/', {
         name: formData.name,
         email: formData.email,
         message: formData.message,
