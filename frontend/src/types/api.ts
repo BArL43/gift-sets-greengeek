@@ -39,3 +39,4 @@ export interface CreateGiftSetDto {
     image_url: string;
     product_ids: number[];
 } 
+ export {};
