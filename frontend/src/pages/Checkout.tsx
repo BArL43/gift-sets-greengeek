@@ -19,6 +19,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
+
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -83,7 +84,7 @@ const Checkout: React.FC = () => {
       console.log('Данные заказа:', orderData);
 
       // Отправка заказа на бэкенд через настроенный экземпляр api
-      const response = await axios.post('http://localhost:8000/orders/', orderData);
+      const response = await api.post('/orders/', orderData);
 
       console.log('Статус ответа:', response.status);
       console.log('Заголовки ответа:', response.headers);
