@@ -7,8 +7,6 @@ const api = axios.create({
      headers: { 'Content-Type': 'application/json' },
    });
 
-   export default api;
-
 // Add a request interceptor
 api.interceptors.request.use(
   (config) => {
