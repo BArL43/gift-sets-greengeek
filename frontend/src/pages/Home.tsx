@@ -378,7 +378,7 @@ const Home: React.FC = () => {
                         <Button 
                           variant="contained" 
                           color="primary" 
-                          onClick={() => navigate(`/gift-set/${set.id}`)}
+                          onClick={() => set.id === 2 ? navigate('/girl-gift-set') : navigate(`/gift-set/${set.id}`)}
                           sx={{ 
                             color: 'white',
                             px: 4,
