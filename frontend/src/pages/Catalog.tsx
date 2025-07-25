@@ -88,7 +88,7 @@ const Catalog: React.FC = () => {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
           {giftSets.map((set) => {
             if (set.id === 2) {
-              // Для "Набор ДР девочки" используем новую страницу
+              // Для "Набор ДР девочки" используем новую страницу и уникальный id для корзины
               return (
                 <Card key={set.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden', background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', transition: 'all 0.3s ease', cursor: 'pointer', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 24px rgba(0,0,0,0.2)', background: 'rgba(255, 255, 255, 0.15)', }, }} onClick={() => navigate('/girl-gift-set')}>
                   <CardMedia component="img" height="240" image={set.image} alt={set.title} sx={{ objectFit: 'cover', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', }} />
@@ -102,7 +102,7 @@ const Catalog: React.FC = () => {
                     </ul>
                     <Typography variant="h6" color="primary" gutterBottom sx={{ fontWeight: 600, color: 'white' }}>{set.price} ₽</Typography>
                     <Box onClick={(e) => e.stopPropagation()} sx={{ mt: 'auto', pt: 2, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <AddToCartButton item={{ id: set.id, title: set.title, price: set.price, image: set.image }} variant="contained" size="medium" />
+                      <AddToCartButton item={{ id: 1002, title: set.title, price: set.price, image: set.image }} variant="contained" size="medium" />
                     </Box>
                   </CardContent>
                 </Card>
