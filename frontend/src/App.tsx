@@ -33,6 +33,7 @@ import OrderSuccess from './pages/OrderSuccess';
 import OrderHistory from './pages/OrderHistory';
 import AdminLogin from './pages/AdminLogin';
 import CreateFirstAdminPage from './pages/CreateFirstAdmin';
+import GirlGiftSet from './pages/GirlGiftSet';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; requireAdmin?: boolean }> = ({ 
@@ -307,6 +308,7 @@ const App: React.FC = () => {
                         </ProtectedRoute>
                       }
                     />
+                    <Route path="/girl-gift-set" element={<GirlGiftSet />} />
                     {/* <Route path="/login" element={<Login />} /> */}
                     {/* <Route path="/register" element={<Register />} /> */}
                     <Route
