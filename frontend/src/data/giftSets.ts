@@ -1,13 +1,5 @@
 export const giftSets = [
   {
-    id: 1,
-    title: 'Универсальный набор',
-    description: 'Подарочный набор для любого случая.',
-    composition: ['Пряники', 'Местный шоколад', 'Мёд', 'Травяной чай', 'Открытка'],
-    price: 1200,
-    image_url: 'https://via.placeholder.com/200x200?text=Универсальный+набор'
-  },
-  {
     id: 2,
     title: 'Набор ДР девочки',
     description: 'Идеальный подарок для девочки.',
@@ -38,22 +30,6 @@ export const giftSets = [
     composition: ['Стакан для коктейля', 'Трубочка стеклянная', 'Зонтик', 'Форма для льда'],
     price: 1100,
     image_url: 'https://via.placeholder.com/200x200?text=Летний+набор'
-  },
-  {
-    id: 6,
-    title: 'Папе',
-    description: 'Подарок для папы.',
-    composition: ['Кружка', 'Носки', 'Галстук'],
-    price: 1000,
-    image_url: 'https://via.placeholder.com/200x200?text=Папе'
-  },
-  {
-    id: 7,
-    title: 'Бокал и тарелка',
-    description: 'Набор для сервировки.',
-    composition: ['Тарелка', 'Бокал'],
-    price: 900,
-    image_url: 'https://via.placeholder.com/200x200?text=Бокал+и+тарелка'
   },
   {
     id: 8,
