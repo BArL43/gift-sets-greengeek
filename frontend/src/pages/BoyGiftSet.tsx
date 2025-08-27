@@ -24,10 +24,10 @@ import AddToCartButton from '../components/AddToCartButton';
 
 const boyGiftSet = {
   id: 3,
-  title: 'Набор ДР мальчики',
-  description: 'Подарок для мальчика.',
-  composition: ['Мягкая игрушка', 'Мальтезерс', 'Кит кат', 'Покки', 'Милкис клубника'],
-  price: 1400,
+  title: 'Hero Box',
+  description: 'Настоящий геройский набор! С мягкой игрушкой — Человеком-пауком, сладостями Maltesers и освежающим Milkis. Вдохновляющий подарок для активного мальчика!',
+  composition: ['Мягкая игрушка (Человек-паук)', 'Maltesers', 'Milkis', 'Сладости'],
+  price: 990,
   images: [
     '/набор_для_мальчика.jpg',
     '/человек_паук.jpg',

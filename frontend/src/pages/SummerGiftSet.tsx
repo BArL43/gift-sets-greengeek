@@ -24,10 +24,10 @@ import AddToCartButton from '../components/AddToCartButton';
 
 const summerGiftSet = {
   id: 5,
-  title: 'Набор летний',
-  description: 'Для летнего настроения.',
+  title: 'Летний must-have',
+  description: 'Всё, что нужно для летнего вайба: коктейльный стакан, стеклянная трубочка, зонтик и форма для льда. Освежи свой день с этим набором!',
   composition: ['Стакан для коктейля', 'Трубочка стеклянная', 'Зонтик', 'Форма для льда'],
-  price: 1100,
+  price: 1090,
   images: [
     '/летний_набор.jpg',
     '/формы_для_льда.jpg',
