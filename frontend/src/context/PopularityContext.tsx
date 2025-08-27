@@ -20,9 +20,9 @@ interface PopularityContextType {
 
 const imageById: Record<number, string> = {
   2: '/photo_2025-07-25_13-55-20.jpg',
-  3: '/images/boy-birthday.jpg',
+  3: '/набор_для_мальчика.jpg',
   4: '/набор_для_мамы.jpg',
-  5: '/images/summer.jpg',
+  5: '/летний_набор.jpg',
   8: '/набор_со_свечей.jpg',
 };
 
