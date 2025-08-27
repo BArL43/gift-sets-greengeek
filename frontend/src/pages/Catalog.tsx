@@ -12,14 +12,6 @@ import AddToCartButton from '../components/AddToCartButton';
 
 const giftSets = [
   {
-    id: 1,
-    title: 'Универсальный набор',
-    price: 1200,
-    image: '/images/universal.jpg',
-    composition: ['Пряники', 'Местный шоколад', 'Мёд', 'Травяной чай', 'Открытка'],
-    description: 'Подарочный набор для любого случая.',
-  },
-  {
     id: 2,
     title: 'Набор ДР девочки',
     price: 1500,
@@ -39,7 +31,7 @@ const giftSets = [
     id: 4,
     title: 'Набор для мамы',
     price: 1300,
-    image: '/images/for-mom.jpg',
+    image: '/набор_для_мамы.jpg',
     composition: ['Полотенце для кухни', 'Кружка', 'Мыло', 'Маска (подарок)', 'Открытка'],
     description: 'Подарок для любимой мамы.',
   },
@@ -50,22 +42,6 @@ const giftSets = [
     image: '/images/summer.jpg',
     composition: ['Стакан для коктейля', 'Трубочка стеклянная', 'Зонтик', 'Форма для льда'],
     description: 'Для летнего настроения.',
-  },
-  {
-    id: 6,
-    title: 'Папе',
-    price: 1000,
-    image: '/images/for-dad.jpg',
-    composition: ['Кружка', 'Носки', 'Галстук'],
-    description: 'Подарок для папы.',
-  },
-  {
-    id: 7,
-    title: 'Бокал и тарелка',
-    price: 900,
-    image: '/images/glass-plate.jpg',
-    composition: ['Тарелка', 'Бокал'],
-    description: 'Набор для сервировки.',
   },
   {
     id: 8,

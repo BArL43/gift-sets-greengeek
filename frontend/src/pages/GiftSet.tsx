@@ -34,7 +34,11 @@ const GiftSet: React.FC = () => {
         id: giftSet.id,
         title: giftSet.title,
         price: giftSet.price,
-        image: giftSet.image_url,
+        image: (giftSet.id === 4
+          ? '/набор_для_мамы.jpg'
+          : giftSet.id === 8
+            ? '/набор_со_свечей.jpg'
+            : giftSet.image_url),
         rating: (giftSet as any).rating ?? 5,
         reviews: (giftSet as any).reviews ?? 10,
         description: giftSet.description,

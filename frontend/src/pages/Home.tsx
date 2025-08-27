@@ -36,7 +36,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { getPopularItems } = usePopularity();
-  const popularSets = getPopularItems();
+  const popularSets = getPopularItems().filter((s) => ![1, 6, 7].includes(s.id));
 
   return (
     <Box>
