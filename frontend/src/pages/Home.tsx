@@ -183,9 +183,7 @@ const Home: React.FC = () => {
                     backgroundColor: 'rgba(255, 255, 255, 0.9)',
                   },
                 },
-                '& .MuiSvgIcon-root': {
-                  fontSize: '2rem',
-                },
+                '& .MuiSvgIcon-root': { fontSize: { xs: '1.6rem', md: '2rem' } },
                 '& .MuiButtonBase-root.Mui-disabled': {
                   opacity: 0.3,
                 },
@@ -234,23 +232,23 @@ const Home: React.FC = () => {
                 <Box 
                   key={set.id} 
                   sx={{ 
-                    px: 2, 
+                    px: { xs: 1, sm: 2 }, 
                     display: 'flex', 
                     justifyContent: 'center',
                   }}
                 >
                   <Card
                     sx={{ 
-                      width: '90%',
+                      width: { xs: '100%', md: '90%' },
                       maxWidth: 1200,
-                      minHeight: 400,
+                      minHeight: { xs: 'auto', md: 400 },
                       borderRadius: 4, 
                       display: 'flex', 
-                      flexDirection: 'row',
+                      flexDirection: { xs: 'column', md: 'row' },
                       backgroundColor: theme.palette.primary.dark,
                       transition: 'all 0.3s ease',
                       '&:hover': {
-                        transform: 'translateY(-8px)',
+                        transform: { xs: 'translateY(-4px)', md: 'translateY(-8px)' },
                         boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
                       },
                     }}
@@ -258,12 +256,13 @@ const Home: React.FC = () => {
                     <CardMedia
                       component="img"
                       sx={{
-                        width: '40%',
-                        height: 'auto',
-                        minHeight: 400,
+                        width: { xs: '100%', md: '40%' },
+                        height: { xs: 220, sm: 260, md: 'auto' },
+                        minHeight: { md: 400 },
                         objectFit: 'cover',
                         borderTopLeftRadius: theme.shape.borderRadius,
-                        borderBottomLeftRadius: theme.shape.borderRadius,
+                        borderTopRightRadius: { xs: theme.shape.borderRadius, md: 0 },
+                        borderBottomLeftRadius: { xs: 0, md: theme.shape.borderRadius },
                       }}
                       image={set.image}
                       alt={set.title}
@@ -271,20 +270,20 @@ const Home: React.FC = () => {
                     <Box sx={{ 
                       display: 'flex', 
                       flexDirection: 'column',
-                      width: '60%',
-                      p: 4,
+                      width: { xs: '100%', md: '60%' },
+                      p: { xs: 2, sm: 3, md: 4 },
                     }}>
-                      <Typography gutterBottom variant="h4" component="div" sx={{ fontWeight: 600, color: 'white', mb: 2 }}>
+                      <Typography gutterBottom variant="h4" component="div" sx={{ fontWeight: 600, color: 'white', mb: { xs: 1.5, md: 2 }, fontSize: { xs: '1.4rem', sm: '1.6rem', md: '2.125rem' } }}>
                         {set.title}
                       </Typography>
-                      <Typography variant="body1" sx={{ mb: 3, color: 'white', flexGrow: 1, fontSize: '1.1rem', lineHeight: 1.6 }}>
+                      <Typography variant="body1" sx={{ mb: { xs: 2, md: 3 }, color: 'white', flexGrow: 1, fontSize: { xs: '0.95rem', md: '1.1rem' }, lineHeight: 1.6 }}>
                         {set.description}
                       </Typography>
                       <Box sx={{ mb: 3 }}>
                         <Typography variant="h6" sx={{ color: 'white', mb: 1, fontWeight: 500 }}>
                           Состав набора:
                         </Typography>
-                        <Typography variant="body1" sx={{ color: 'white', pl: 2, fontSize: '1.1rem', lineHeight: 1.6 }}>
+                        <Typography variant="body1" sx={{ color: 'white', pl: 2, fontSize: { xs: '0.95rem', md: '1.1rem' }, lineHeight: 1.6 }}>
                           • Подарочная коробка премиум-класса<br />
                           • Праздничная упаковка с лентой<br />
                           • Поздравительная открытка<br />
@@ -297,8 +296,8 @@ const Home: React.FC = () => {
                           ({set.reviews} отзывов)
                         </Typography>
                       </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 'auto' }}>
-                        <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>
+                      <Box sx={{ display: 'flex', alignItems: { xs: 'stretch', md: 'center' }, flexDirection: { xs: 'column', sm: 'row' }, gap: { xs: 2, sm: 2 }, justifyContent: 'space-between', mt: 'auto' }}>
+                        <Typography variant="h4" sx={{ fontWeight: 700, color: 'white', fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
                           {set.price} ₽
                         </Typography>
                         <Button 
@@ -307,10 +306,10 @@ const Home: React.FC = () => {
                           onClick={() => set.id === 2 ? navigate('/girl-gift-set') : set.id === 3 ? navigate('/boy-gift-set') : set.id === 4 ? navigate('/mom-gift-set') : set.id === 5 ? navigate('/summer-gift-set') : set.id === 8 ? navigate('/candle-gift-set') : navigate(`/gift-set/${set.id}`)}
                           sx={{ 
                             color: 'white',
-                            px: 4,
-                            py: 1.5,
+                            px: { xs: 3, md: 4 },
+                            py: { xs: 1.1, md: 1.5 },
                             borderRadius: '30px',
-                            fontSize: '1.1rem',
+                            fontSize: { xs: '1rem', md: '1.1rem' },
                             '&:hover': {
                               transform: 'translateY(-2px)',
                               boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
@@ -333,80 +332,23 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Features Section */}
+      {/* Features Section (one row on all screens) */}
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
-        <Box 
-          sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, 
-            gap: 4,
-          }}
-        >
-          <Paper 
-            elevation={0}
-            sx={{ 
-              p: 4, 
-              textAlign: 'center',
-              borderRadius: 4,
-              background: theme.palette.background.paper,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
-              },
-            }}
-          >
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, overflowX: 'auto' }}>
+          <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
             <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🎁</Typography>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
-              Уникальные наборы
-            </Typography>
-            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-              Каждый набор создается с любовью и вниманием к деталям
-            </Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Уникальные наборы</Typography>
+            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Каждый набор создается с любовью и вниманием к деталям</Typography>
           </Paper>
-          <Paper 
-            elevation={0}
-            sx={{ 
-              p: 4, 
-              textAlign: 'center',
-              borderRadius: 4,
-              background: theme.palette.background.paper,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
-              },
-            }}
-          >
+          <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
             <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🚚</Typography>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
-              Быстрая доставка
-            </Typography>
-            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-              Доставляем по Зеленодольску и Казани в день заказа
-            </Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Быстрая доставка</Typography>
+            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Доставляем по Зеленодольску и Казани в день заказа</Typography>
           </Paper>
-          <Paper 
-            elevation={0}
-            sx={{ 
-              p: 4, 
-              textAlign: 'center',
-              borderRadius: 4,
-              background: theme.palette.background.paper,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
-              },
-            }}
-          >
+          <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
             <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>💝</Typography>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
-              Персональный подход
-            </Typography>
-            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-              Создаем индивидуальные наборы под ваши пожелания
-            </Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Персональный подход</Typography>
+            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Создаем индивидуальные наборы под ваши пожелания</Typography>
           </Paper>
         </Box>
       </Container>

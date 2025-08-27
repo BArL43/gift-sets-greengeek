@@ -131,7 +131,7 @@ const Constructor: React.FC = () => {
     const baseTotalPrice = calculateTotal();
 
     const packagingPrice = 119;
-    const packagingQuantity = selectedItems.length; // за каждую позицию
+    const packagingQuantity = 1; // одна упаковка на весь набор
     const packagingTotal = packagingPrice * packagingQuantity;
 
     const cartItems = [
@@ -214,8 +214,9 @@ const Constructor: React.FC = () => {
 
         <Box sx={{ 
           display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' }, 
-          gap: 4,
+          gridTemplateColumns: { xs: '2fr 1fr', md: '2fr 1fr' }, 
+          gap: { xs: 2, md: 4 },
+          alignItems: 'start',
         }}>
           {/* Категории товаров */}
           <Box>
@@ -237,8 +238,8 @@ const Constructor: React.FC = () => {
                 </Typography>
                 <Box sx={{ 
                   display: 'grid', 
-                  gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
-                  gap: 2 
+                  gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
+                  gap: { xs: 1.5, md: 2 },
                 }}>
                   {category.items.map((item) => (
                     <Paper
@@ -263,16 +264,16 @@ const Constructor: React.FC = () => {
                         alt={item.name}
                         sx={{
                           width: '100%',
-                          height: 120,
+                          height: { xs: 90, sm: 110, md: 120 },
                           objectFit: 'cover',
                           borderRadius: 1,
-                          mb: 1,
+                          mb: { xs: 0.5, md: 1 },
                         }}
                       />
-                      <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 500 }}>
+                      <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 500, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                         {item.name}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'white', opacity: 0.8 }}>
+                      <Typography variant="body2" sx={{ color: 'white', opacity: 0.8, fontSize: { xs: '0.85rem', md: '0.875rem' } }}>
                         {item.price} ₽
                       </Typography>
                     </Paper>
