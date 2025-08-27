@@ -36,6 +36,8 @@ import CreateFirstAdminPage from './pages/CreateFirstAdmin';
 import GirlGiftSet from './pages/GirlGiftSet';
 import MomGiftSet from './pages/MomGiftSet';
 import CandleGiftSet from './pages/CandleGiftSet';
+import BoyGiftSet from './pages/BoyGiftSet';
+import SummerGiftSet from './pages/SummerGiftSet';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; requireAdmin?: boolean }> = ({ 
@@ -311,7 +313,9 @@ const App: React.FC = () => {
                       }
                     />
                     <Route path="/girl-gift-set" element={<GirlGiftSet />} />
+                    <Route path="/boy-gift-set" element={<BoyGiftSet />} />
                     <Route path="/mom-gift-set" element={<MomGiftSet />} />
+                    <Route path="/summer-gift-set" element={<SummerGiftSet />} />
                     <Route path="/candle-gift-set" element={<CandleGiftSet />} />
                     {/* <Route path="/login" element={<Login />} /> */}
                     {/* <Route path="/register" element={<Register />} /> */}
