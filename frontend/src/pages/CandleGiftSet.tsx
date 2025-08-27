@@ -22,24 +22,25 @@ import {
 } from '@mui/icons-material';
 import AddToCartButton from '../components/AddToCartButton';
 
-const momGiftSet = {
-  id: 4,
-  title: 'Набор для мамы',
-  description: 'Подарок для любимой мамы.',
-  composition: ['Полотенце для кухни', 'Кружка', 'Мыло', 'Маска (подарок)', 'Открытка'],
-  price: 1300,
+const candleGiftSet = {
+  id: 8,
+  title: 'Набор со свечой',
+  description: 'Для уютного вечера.',
+  composition: ['Свеча', 'Бомбочка для ванны', '4 маски для лица', 'Мыло ручной работы', 'Скраб'],
+  price: 1600,
   images: [
-    '/набор_для_мамы.jpg',
-    '/чашки.jpg',
-    '/крем.jpg',
-    '/полотенце.jpg',
+    '/набор_со_свечей.jpg',
+    '/скраб_красный.jpg',
+    '/бомбочки.jpg',
+    '/свечи.jpg',
+    '/мыло.jpg',
     '/маски.jpg',
   ],
   rating: 5,
-  reviews: 7,
+  reviews: 9,
 };
 
-const MomGiftSet: React.FC = () => {
+const CandleGiftSet: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
@@ -73,8 +74,8 @@ const MomGiftSet: React.FC = () => {
     setZoom(1);
   };
 
-  const handlePrev = () => setCurrent((prev) => (prev === 0 ? momGiftSet.images.length - 1 : prev - 1));
-  const handleNext = () => setCurrent((prev) => (prev === momGiftSet.images.length - 1 ? 0 : prev + 1));
+  const handlePrev = () => setCurrent((prev) => (prev === 0 ? candleGiftSet.images.length - 1 : prev - 1));
+  const handleNext = () => setCurrent((prev) => (prev === candleGiftSet.images.length - 1 ? 0 : prev + 1));
 
   return (
     <Box sx={{ py: { xs: 4, md: 6 } }}>
@@ -111,8 +112,8 @@ const MomGiftSet: React.FC = () => {
                 onClick={() => handleOpen(current)}
               >
                 <img
-                  src={momGiftSet.images[current]}
-                  alt={momGiftSet.title}
+                  src={candleGiftSet.images[current]}
+                  alt={candleGiftSet.title}
                   style={{
                     width: '100%',
                     height: '100%',
@@ -129,12 +130,12 @@ const MomGiftSet: React.FC = () => {
             </Box>
             {/* Миниатюры */}
             <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'center' }}>
-              {momGiftSet.images.map((img, idx) => (
+              {candleGiftSet.images.map((img, idx) => (
                 <Box
                   key={img}
                   component="img"
                   src={img}
-                  alt={momGiftSet.title + ' ' + (idx + 1)}
+                  alt={candleGiftSet.title + ' ' + (idx + 1)}
                   sx={{
                     width: 60,
                     height: 60,
@@ -153,24 +154,24 @@ const MomGiftSet: React.FC = () => {
           <Box>
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
-                {momGiftSet.title}
+                {candleGiftSet.title}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Rating value={momGiftSet.rating} precision={0.1} readOnly />
+                <Rating value={candleGiftSet.rating} precision={0.1} readOnly />
                 <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                  ({momGiftSet.reviews} отзывов)
+                  ({candleGiftSet.reviews} отзывов)
                 </Typography>
               </Box>
               <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 600 }}>
-                {momGiftSet.price} ₽
+                {candleGiftSet.price} ₽
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
                 <AddToCartButton
                   item={{
-                    id: momGiftSet.id,
-                    title: momGiftSet.title,
-                    price: momGiftSet.price,
-                    image: momGiftSet.images[0],
+                    id: candleGiftSet.id,
+                    title: candleGiftSet.title,
+                    price: candleGiftSet.price,
+                    image: candleGiftSet.images[0],
                   }}
                   variant="contained"
                   size="large"
@@ -210,13 +211,13 @@ const MomGiftSet: React.FC = () => {
                   Описание
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ color: 'white', opacity: 0.9 }}>
-                  {momGiftSet.description}
+                  {candleGiftSet.description}
                 </Typography>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mt: 4, color: 'white' }}>
                   Состав набора
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
-                  {momGiftSet.composition.map((item, index) => (
+                  {candleGiftSet.composition.map((item, index) => (
                     <Chip
                       key={index}
                       label={item}
@@ -248,8 +249,8 @@ const MomGiftSet: React.FC = () => {
           </IconButton>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', minWidth: { xs: 300, md: 600 } }}>
             <img
-              src={momGiftSet.images[current]}
-              alt={momGiftSet.title}
+              src={candleGiftSet.images[current]}
+              alt={candleGiftSet.title}
               style={{
                 maxHeight: '80vh',
                 maxWidth: '90vw',
@@ -272,4 +273,6 @@ const MomGiftSet: React.FC = () => {
   );
 };
 
-export default MomGiftSet; 
+export default CandleGiftSet;
+
+

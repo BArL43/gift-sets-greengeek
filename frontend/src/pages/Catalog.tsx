@@ -71,7 +71,7 @@ const giftSets = [
     id: 8,
     title: 'Набор со свечой',
     price: 1600,
-    image: '/images/candle-set.jpg',
+    image: '/набор_со_свечей.jpg',
     composition: ['Свеча', 'Бомбочка для ванны', '4 маски для лица', 'Мыло ручной работы', 'Скраб'],
     description: 'Для уютного вечера.',
   },
@@ -87,7 +87,7 @@ const Catalog: React.FC = () => {
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
           {giftSets.map((set) => (
-              <Card key={set.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden', background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', transition: 'all 0.3s ease', cursor: 'pointer', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 24px rgba(0,0,0,0.2)', background: 'rgba(255, 255, 255, 0.15)', }, }} onClick={() => set.id === 2 ? navigate('/girl-gift-set') : navigate(`/gift-set/${set.id}`)}>
+              <Card key={set.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden', background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', transition: 'all 0.3s ease', cursor: 'pointer', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 24px rgba(0,0,0,0.2)', background: 'rgba(255, 255, 255, 0.15)', }, }} onClick={() => set.id === 2 ? navigate('/girl-gift-set') : set.id === 4 ? navigate('/mom-gift-set') : set.id === 8 ? navigate('/candle-gift-set') : navigate(`/gift-set/${set.id}`)}>
                 <CardMedia component="img" height="240" image={set.image} alt={set.title} sx={{ objectFit: 'cover', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', }} />
                 <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', pb: 2, color: 'white', }}>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: 'white' }}>{set.title}</Typography>
