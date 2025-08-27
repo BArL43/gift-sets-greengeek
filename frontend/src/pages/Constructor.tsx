@@ -72,13 +72,6 @@ const categories = [
       { id: 16, name: 'Человек-паук', price: 750, image: '/человек_паук.jpg' },
     ],
   },
-  {
-    id: 'packaging',
-    title: 'Оформление',
-    items: [
-      { id: 20, name: 'Оформление (коробка, бумага, открытка, ленточка)', price: 119, image: 'https://via.placeholder.com/200x200?text=Оформление' },
-    ],
-  },
 ];
 
 const Constructor: React.FC = () => {
@@ -135,25 +128,41 @@ const Constructor: React.FC = () => {
 
   const handleAddToCart = () => {
     const selectedItemsDetails = getSelectedItemsDetails();
-    const totalPrice = calculateTotal();
-    
-    // Добавляем набор как один товар
-    addItem({
-      id: Date.now(),
-      title: 'Подарочный набор',
-      price: totalPrice,
-      image: selectedItemsDetails[0]?.image || '/images/default-set.jpg',
-      quantity: 1,
-      isCustomSet: true,
-      items: selectedItemsDetails.map(item => ({
+    const baseTotalPrice = calculateTotal();
+
+    const packagingPrice = 119;
+    const packagingQuantity = selectedItems.length; // за каждую позицию
+    const packagingTotal = packagingPrice * packagingQuantity;
+
+    const cartItems = [
+      ...selectedItemsDetails.map(item => ({
         id: item.id,
         name: item.name,
         price: item.price,
         image: item.image,
         quantity: getItemQuantity(item.id)
-      }))
+      })),
+      {
+        id: 999001,
+        name: 'Оформление (коробка, бумага, открытка, ленточка)',
+        price: packagingPrice,
+        image: '/images/default-set.jpg',
+        quantity: packagingQuantity,
+      },
+    ];
+
+    const totalPriceWithPackaging = baseTotalPrice + packagingTotal;
+
+    addItem({
+      id: Date.now(),
+      title: 'Подарочный набор',
+      price: totalPriceWithPackaging,
+      image: selectedItemsDetails[0]?.image || '/images/default-set.jpg',
+      quantity: 1,
+      isCustomSet: true,
+      items: cartItems,
     });
-    
+
     navigate('/cart');
   };
 
@@ -282,8 +291,8 @@ const Constructor: React.FC = () => {
                 borderRadius: 4,
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
-                position: 'sticky',
-                top: 20,
+                position: { xs: 'static', md: 'sticky' },
+                top: { md: 20 },
               }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600 }}>
