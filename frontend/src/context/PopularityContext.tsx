@@ -18,11 +18,19 @@ interface PopularityContextType {
   getPopularItems: (limit?: number) => PopularityItem[];
 }
 
+const imageById: Record<number, string> = {
+  2: '/photo_2025-07-25_13-55-20.jpg',
+  3: '/images/boy-birthday.jpg',
+  4: '/набор_для_мамы.jpg',
+  5: '/images/summer.jpg',
+  8: '/набор_со_свечей.jpg',
+};
+
 const initialPopularItems: PopularityItem[] = giftSets.map(set => ({
   id: set.id,
   title: set.title,
   price: set.price,
-  image: set.image_url,
+  image: imageById[set.id] ?? set.image_url,
   rating: 5,
   reviews: 10,
   description: set.description,
