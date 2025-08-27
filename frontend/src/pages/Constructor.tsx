@@ -23,51 +23,60 @@ const categories = [
     id: 'cosmetics',
     title: 'Косметика',
     items: [
-      { id: 1, name: 'Скраб', price: 350, image: '/скраб_красный.jpg' },
-      { id: 2, name: 'Косметичка', price: 250, image: '/косметичка.jpg' },
-      { id: 3, name: 'Бомбочка для ванны', price: 300, image: '/бомбочки.jpg' },
-      { id: 4, name: 'Мыло ручной работы', price: 200, image: '/мыло.jpg' },
-      { id: 15, name: 'Маска для лица', price: 280, image: '/маски.jpg' },
+      { id: 18, name: 'Крем', price: 342, image: '/крем.jpg' },
+      { id: 4, name: 'Мыло', price: 85, image: '/мыло.jpg' },
+      { id: 15, name: 'Маска для лица', price: 25, image: '/маски.jpg' },
+      { id: 19, name: 'Скраб (белый)', price: 400, image: '/скраб_белый.jpg' },
+      { id: 1, name: 'Скраб (красный)', price: 493, image: '/скраб_красный.jpg' },
+      { id: 3, name: 'Бомбочки для ванны', price: 240, image: '/бомбочки.jpg' },
     ],
   },
   {
     id: 'home',
     title: 'Для дома',
     items: [
-      { id: 5, name: 'Кружка бежевая', price: 400, image: '/чашки.jpg' },
-      { id: 8, name: 'Полотенце кухонное', price: 300, image: '/полотенце.jpg' },
+      { id: 8, name: 'Полотенце', price: 514, image: '/полотенце.jpg' },
+      { id: 5, name: 'Чашки', price: 349, image: '/чашки.jpg' },
+      { id: 2, name: 'Косметичка', price: 532, image: '/косметичка.jpg' },
     ],
   },
   {
     id: 'drinks',
     title: 'Для напитков',
     items: [
-      { id: 9, name: 'Стакан для коктейля', price: 250, image: '/стаканчики.jpg' },
-      { id: 17, name: 'Форма для льда', price: 180, image: '/формы_для_льда.jpg' },
-      { id: 14, name: 'Трубочки стеклянные', price: 120, image: 'https://via.placeholder.com/200x200?text=Трубочки' },
-      { id: 10, name: 'Зонтики для коктейля', price: 150, image: 'https://via.placeholder.com/200x200?text=Зонтики' },
+      { id: 9, name: 'Стаканчики', price: 485, image: '/стаканчики.jpg' },
+      { id: 14, name: 'Трубочки стеклянные', price: 105, image: 'https://via.placeholder.com/200x200?text=Трубочки' },
+      { id: 17, name: 'Формы для льда', price: 429, image: '/формы_для_льда.jpg' },
+      { id: 10, name: 'Зонтики', price: 13, image: 'https://via.placeholder.com/200x200?text=Зонтики' },
     ],
   },
   {
     id: 'sweets',
     title: 'Сладости',
     items: [
-      { id: 11, name: 'Maltesers', price: 200, image: '/maltesers.jpg' },
-      { id: 12, name: 'Pocky', price: 180, image: '/pocky.jpg' },
+      { id: 12, name: 'Pocky', price: 221, image: '/pocky.jpg' },
+      { id: 11, name: 'Maltesers', price: 112, image: '/maltesers.jpg' },
     ],
   },
   {
     id: 'decor',
     title: 'Декор',
     items: [
-      { id: 13, name: 'Аромосвечи', price: 400, image: '/свечи.jpg' },
+      { id: 13, name: 'Свечи', price: 217, image: '/свечи.jpg' },
     ],
   },
   {
     id: 'toys',
     title: 'Игрушки',
     items: [
-      { id: 16, name: 'Мягкая игрушка Человек-паук', price: 500, image: '/человек_паук.jpg' },
+      { id: 16, name: 'Человек-паук', price: 750, image: '/человек_паук.jpg' },
+    ],
+  },
+  {
+    id: 'packaging',
+    title: 'Оформление',
+    items: [
+      { id: 20, name: 'Оформление (коробка, бумага, открытка, ленточка)', price: 119, image: 'https://via.placeholder.com/200x200?text=Оформление' },
     ],
   },
 ];
