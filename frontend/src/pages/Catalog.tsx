@@ -23,7 +23,7 @@ const giftSets = [
     id: 3,
     title: 'Набор ДР мальчики',
     price: 1400,
-    image: '/images/boy-birthday.jpg',
+    image: '/набор_для_мальчика.jpg',
     composition: ['Мягкая игрушка', 'Мальтезерс', 'Кит кат', 'Покки', 'Милкис клубника'],
     description: 'Подарок для мальчика.',
   },
@@ -39,7 +39,7 @@ const giftSets = [
     id: 5,
     title: 'Набор летний',
     price: 1100,
-    image: '/images/summer.jpg',
+    image: '/летний_набор.jpg',
     composition: ['Стакан для коктейля', 'Трубочка стеклянная', 'Зонтик', 'Форма для льда'],
     description: 'Для летнего настроения.',
   },
@@ -63,7 +63,7 @@ const Catalog: React.FC = () => {
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
           {giftSets.map((set) => (
-              <Card key={set.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden', background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', transition: 'all 0.3s ease', cursor: 'pointer', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 24px rgba(0,0,0,0.2)', background: 'rgba(255, 255, 255, 0.15)', }, }} onClick={() => set.id === 2 ? navigate('/girl-gift-set') : set.id === 4 ? navigate('/mom-gift-set') : set.id === 8 ? navigate('/candle-gift-set') : navigate(`/gift-set/${set.id}`)}>
+              <Card key={set.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden', background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', transition: 'all 0.3s ease', cursor: 'pointer', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 24px rgba(0,0,0,0.2)', background: 'rgba(255, 255, 255, 0.15)', }, }} onClick={() => set.id === 2 ? navigate('/girl-gift-set') : set.id === 3 ? navigate('/boy-gift-set') : set.id === 4 ? navigate('/mom-gift-set') : set.id === 5 ? navigate('/summer-gift-set') : set.id === 8 ? navigate('/candle-gift-set') : navigate(`/gift-set/${set.id}`)}>
                 <CardMedia component="img" height="240" image={set.image} alt={set.title} sx={{ objectFit: 'cover', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', }} />
                 <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', pb: 2, color: 'white', }}>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: 'white' }}>{set.title}</Typography>
