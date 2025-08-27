@@ -44,7 +44,7 @@ const Home: React.FC = () => {
       <Box
         sx={{
           position: 'relative',
-          minHeight: { xs: '60vh', md: '80vh' },
+          minHeight: '80vh',
           display: 'flex',
           alignItems: 'center',
           background: 'linear-gradient(45deg, #705F2C 0%, #00362A 100%)',
@@ -58,21 +58,21 @@ const Home: React.FC = () => {
             right: 0,
             bottom: 0,
             background: 'url("/images/pattern.png")',
-            opacity: { xs: 0.06, md: 0.1 },
+            opacity: 0.1,
             zIndex: 1,
           },
         }}
       >
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 3 } }}>
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
           <Typography 
             variant="h1" 
             component="h1" 
             gutterBottom
             sx={{
-              fontSize: { xs: '2rem', sm: '2.5rem', md: '4rem' },
+              fontSize: { xs: '2.5rem', md: '4rem' },
               fontWeight: 700,
-              textShadow: { xs: '1px 1px 2px rgba(0,0,0,0.15)', md: '2px 2px 4px rgba(0,0,0,0.2)' },
-              mb: { xs: 2, md: 3 },
+              textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
+              mb: 3,
               color: theme.palette.text.primary,
             }}
           >
@@ -82,9 +82,9 @@ const Home: React.FC = () => {
             variant="h5" 
             paragraph
             sx={{
-              fontSize: { xs: '1rem', sm: '1.1rem', md: '1.5rem' },
-              maxWidth: 600,
-              mb: { xs: 3, md: 4 },
+              fontSize: { xs: '1.2rem', md: '1.5rem' },
+              maxWidth: '600px',
+              mb: 4,
               color: theme.palette.text.primary,
             }}
           >
@@ -97,14 +97,14 @@ const Home: React.FC = () => {
             onClick={() => navigate('/catalog')}
             endIcon={<ArrowForwardIcon />}
             sx={{
-              px: { xs: 3, md: 4 },
-              py: { xs: 1.2, md: 1.5 },
+              px: 4,
+              py: 1.5,
               borderRadius: '30px',
-              fontSize: { xs: '1rem', md: '1.1rem' },
-              boxShadow: { xs: '0 3px 10px rgba(0,0,0,0.18)', md: '0 4px 14px rgba(0,0,0,0.2)' },
+              fontSize: '1.1rem',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.2)',
               '&:hover': {
-                transform: { xs: 'translateY(-1px)', md: 'translateY(-2px)' },
-                boxShadow: { xs: '0 4px 14px rgba(0,0,0,0.22)', md: '0 6px 20px rgba(0,0,0,0.25)' },
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
               },
               transition: 'all 0.3s ease',
               color: 'white',
