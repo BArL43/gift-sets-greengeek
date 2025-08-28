@@ -5,14 +5,12 @@ import {
   Container,
   Typography,
   Button,
-  Rating,
   Paper,
   Divider,
   Chip,
   useTheme,
 } from '@mui/material';
 import {
-  Favorite as FavoriteIcon,
   Share as ShareIcon,
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
@@ -137,10 +135,7 @@ const GiftSet: React.FC = () => {
               </Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Rating value={(giftSet as any).rating ?? 5} precision={0.1} readOnly />
-                <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                  ({(giftSet as any).reviews ?? 10} отзывов)
-                </Typography>
+                
               </Box>
 
               <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 600 }}>
@@ -169,19 +164,18 @@ const GiftSet: React.FC = () => {
                       backgroundColor: 'rgba(0,0,0,0.02)',
                     },
                   }}
-                >
-                  <FavoriteIcon />
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    minWidth: 48,
-                    borderRadius: '30px',
-                    borderColor: 'rgba(0,0,0,0.1)',
-                    '&:hover': {
-                      borderColor: theme.palette.primary.main,
-                      backgroundColor: 'rgba(0,0,0,0.02)',
-                    },
+                  onClick={async () => {
+                    const shareData = { title: giftSet.title, text: giftSet.description, url: window.location.href };
+                    try {
+                      if (navigator.share) {
+                        await navigator.share(shareData);
+                      } else {
+                        await navigator.clipboard.writeText(shareData.url);
+                        alert('Ссылка скопирована в буфер обмена');
+                      }
+                    } catch (e) {
+                      console.error(e);
+                    }
                   }}
                 >
                   <ShareIcon />

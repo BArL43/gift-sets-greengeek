@@ -7,7 +7,6 @@ import {
   Button,
   Card,
   CardMedia,
-  Rating,
   Paper,
   useTheme
 } from '@mui/material';
@@ -283,19 +282,17 @@ const Home: React.FC = () => {
                         <Typography variant="h6" sx={{ color: 'white', mb: 1, fontWeight: 500 }}>
                           Состав набора:
                         </Typography>
-                        <Typography variant="body1" sx={{ color: 'white', pl: 2, fontSize: { xs: '0.95rem', md: '1.1rem' }, lineHeight: 1.6 }}>
-                          • Подарочная коробка премиум-класса<br />
-                          • Праздничная упаковка с лентой<br />
-                          • Поздравительная открытка<br />
-                          • Индивидуальное оформление
-                        </Typography>
+                        <Box component="ul" sx={{ m: 0, pl: 3 }}>
+                          {Array.isArray((set as any).composition) && (set as any).composition.map((item: string, idx: number) => (
+                            <li key={idx}>
+                              <Typography variant="body1" sx={{ color: 'white', fontSize: { xs: '0.95rem', md: '1.1rem' }, lineHeight: 1.6 }}>
+                                {item}
+                              </Typography>
+                            </li>
+                          ))}
+                        </Box>
                       </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                        <Rating value={set.rating} readOnly size="large" sx={{ color: theme.palette.primary.main }} />
-                        <Typography variant="body1" sx={{ ml: 2, color: 'white', fontSize: '1.1rem' }}>
-                          ({set.reviews} отзывов)
-                        </Typography>
-                      </Box>
+                      <Box sx={{ height: 0, mb: 0 }} />
                       <Box sx={{ display: 'flex', alignItems: { xs: 'stretch', md: 'center' }, flexDirection: { xs: 'column', sm: 'row' }, gap: { xs: 2, sm: 2 }, justifyContent: 'space-between', mt: 'auto' }}>
                         <Typography variant="h4" sx={{ fontWeight: 700, color: 'white', fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
                           {set.price} ₽

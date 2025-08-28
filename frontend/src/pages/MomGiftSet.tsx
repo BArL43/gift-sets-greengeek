@@ -4,7 +4,6 @@ import {
   Container,
   Typography,
   Button,
-  Rating,
   Paper,
   Divider,
   Chip,
@@ -13,7 +12,6 @@ import {
   IconButton
 } from '@mui/material';
 import {
-  Favorite as FavoriteIcon,
   Share as ShareIcon,
   ArrowBack as ArrowBackIcon,
   Close as CloseIcon,
@@ -155,12 +153,7 @@ const MomGiftSet: React.FC = () => {
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
                 {momGiftSet.title}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Rating value={momGiftSet.rating} precision={0.1} readOnly />
-                <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                  ({momGiftSet.reviews} отзывов)
-                </Typography>
-              </Box>
+              <Box sx={{ height: 0, mb: 0 }} />
               <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 600 }}>
                 {momGiftSet.price} ₽
               </Typography>
@@ -186,19 +179,18 @@ const MomGiftSet: React.FC = () => {
                       backgroundColor: 'rgba(0,0,0,0.02)',
                     },
                   }}
-                >
-                  <FavoriteIcon />
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    minWidth: 48,
-                    borderRadius: '30px',
-                    borderColor: 'rgba(0,0,0,0.1)',
-                    '&:hover': {
-                      borderColor: theme.palette.primary.main,
-                      backgroundColor: 'rgba(0,0,0,0.02)',
-                    },
+                  onClick={async () => {
+                    const shareData = { title: momGiftSet.title, text: momGiftSet.description, url: window.location.href };
+                    try {
+                      if (navigator.share) {
+                        await navigator.share(shareData);
+                      } else {
+                        await navigator.clipboard.writeText(shareData.url);
+                        alert('Ссылка скопирована в буфер обмена');
+                      }
+                    } catch (e) {
+                      console.error(e);
+                    }
                   }}
                 >
                   <ShareIcon />

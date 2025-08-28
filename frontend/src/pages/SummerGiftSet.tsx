@@ -4,7 +4,6 @@ import {
   Container,
   Typography,
   Button,
-  Rating,
   Paper,
   Divider,
   Chip,
@@ -13,7 +12,6 @@ import {
   IconButton
 } from '@mui/material';
 import {
-  Favorite as FavoriteIcon,
   Share as ShareIcon,
   ArrowBack as ArrowBackIcon,
   Close as CloseIcon,
@@ -151,12 +149,7 @@ const SummerGiftSet: React.FC = () => {
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
                 {summerGiftSet.title}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Rating value={summerGiftSet.rating} precision={0.1} readOnly />
-                <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                  ({summerGiftSet.reviews} отзывов)
-                </Typography>
-              </Box>
+              <Box sx={{ height: 0, mb: 0 }} />
               <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 600 }}>
                 {summerGiftSet.price} ₽
               </Typography>
@@ -166,10 +159,19 @@ const SummerGiftSet: React.FC = () => {
                   variant="contained"
                   size="large"
                 />
-                <Button variant="outlined" sx={{ minWidth: 48, borderRadius: '30px', borderColor: 'rgba(0,0,0,0.1)', '&:hover': { borderColor: theme.palette.primary.main, backgroundColor: 'rgba(0,0,0,0.02)' } }}>
-                  <FavoriteIcon />
-                </Button>
-                <Button variant="outlined" sx={{ minWidth: 48, borderRadius: '30px', borderColor: 'rgba(0,0,0,0.1)', '&:hover': { borderColor: theme.palette.primary.main, backgroundColor: 'rgba(0,0,0,0.02)' } }}>
+                <Button variant="outlined" sx={{ minWidth: 48, borderRadius: '30px', borderColor: 'rgba(0,0,0,0.1)', '&:hover': { borderColor: theme.palette.primary.main, backgroundColor: 'rgba(0,0,0,0.02)' } }} onClick={async () => {
+                  const shareData = { title: summerGiftSet.title, text: summerGiftSet.description, url: window.location.href };
+                  try {
+                    if (navigator.share) {
+                      await navigator.share(shareData);
+                    } else {
+                      await navigator.clipboard.writeText(shareData.url);
+                      alert('Ссылка скопирована в буфер обмена');
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}>
                   <ShareIcon />
                 </Button>
               </Box>
