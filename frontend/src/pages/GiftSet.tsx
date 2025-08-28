@@ -40,6 +40,7 @@ const GiftSet: React.FC = () => {
         rating: (giftSet as any).rating ?? 5,
         reviews: (giftSet as any).reviews ?? 10,
         description: giftSet.description,
+        composition: giftSet.composition,
       });
     }
   }, [giftSet]);
