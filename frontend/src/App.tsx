@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
@@ -19,7 +19,6 @@ import GiftSet from './pages/GiftSet';
 import Constructor from './pages/Constructor';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
-import About from './pages/About';
 import Contacts from './pages/Contacts';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
@@ -250,6 +249,13 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const ScrollToTop: React.FC = () => {
+    const location = useLocation();
+    React.useEffect(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }, [location.pathname]);
+    return null;
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -263,6 +269,7 @@ const App: React.FC = () => {
                 minHeight: '100vh',
                 background: theme.palette.background.default,
               }}>
+                <ScrollToTop />
                 <Header />
                 <main style={{ flex: 1 }}>
                   <Routes>
@@ -294,7 +301,7 @@ const App: React.FC = () => {
                         </ProtectedRoute>
                       }
                     />
-                    <Route path="/about" element={<About />} />
+                    
                     <Route path="/contacts" element={<Contacts />} />
                     <Route
                       path="/profile"
