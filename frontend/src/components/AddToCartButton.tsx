@@ -35,6 +35,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ item, ...props }) => 
       rating: item.rating || 0,
       reviews: item.reviews || 0,
       description: item.description || (item.composition ? item.composition.join(', ') : 'Состав не указан'),
+      composition: item.composition || [],
     });
   };
 
