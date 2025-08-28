@@ -28,7 +28,6 @@ const girlGiftSet = {
   price: 1190,
   images: [
     '/photo_2025-07-25_13-55-20.jpg',
-    '/photo_2025-07-25_14-22-23.jpg',
     '/косметичка.jpg',
     '/скраб_белый.jpg',
     '/маски.jpg',
