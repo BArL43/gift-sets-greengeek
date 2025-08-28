@@ -96,15 +96,7 @@ const Constructor: React.FC = () => {
       } else if (action === 'add') {
         // Добавляем товар, если не превышен лимит
         if (prev.length < maxItems) {
-          const next = [...prev, itemId];
-          // На телефоне прокручиваем к правой панели, чтобы она была полностью видна
-          if (isSmallScreen) {
-            requestAnimationFrame(() => {
-              const panel = document.getElementById('selected-panel');
-              panel?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
-            });
-          }
-          return next;
+          return [...prev, itemId];
         }
       }
       return prev;
@@ -224,10 +216,9 @@ const Constructor: React.FC = () => {
 
         <Box sx={{ 
           display: 'grid', 
-          gridTemplateColumns: { xs: '2fr 1fr', md: '2fr 1fr' }, 
+          gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' }, 
           gap: { xs: 2, md: 4 },
-          alignItems: 'start',
-          overflow: 'hidden'
+          alignItems: 'start'
         }}>
           {/* Категории товаров */}
           <Box>
