@@ -9,6 +9,7 @@ interface PopularityItem {
   rating: number;
   reviews: number;
   description: string;
+  composition: string[];
   popularity: number;
 }
 
@@ -34,6 +35,7 @@ const initialPopularItems: PopularityItem[] = giftSets.map(set => ({
   rating: 5,
   reviews: 10,
   description: set.description,
+  composition: set.composition,
   popularity: 100 - set.id * 10 // или другое значение, чтобы сортировать
 }));
 
