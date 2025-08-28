@@ -25,7 +25,6 @@ const pages = [
   { title: 'Главная', path: '/' },
   { title: 'Каталог', path: '/catalog' },
   { title: 'Конструктор', path: '/constructor' },
-  { title: 'О нас', path: '/about' },
   { title: 'Контакты', path: '/contacts' },
 ];
 

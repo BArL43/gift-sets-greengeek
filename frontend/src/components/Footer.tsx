@@ -49,9 +49,7 @@ const Footer: React.FC = () => {
               <Link component={RouterLink} to="/constructor" color="inherit" underline="hover">
                 Конструктор
               </Link>
-              <Link component={RouterLink} to="/about" color="inherit" underline="hover">
-                О нас
-              </Link>
+              
               <Link component={RouterLink} to="/contacts" color="inherit" underline="hover">
                 Контакты
               </Link>
