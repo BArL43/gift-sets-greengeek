@@ -42,14 +42,7 @@ const initialPopularItems: PopularityItem[] = giftSets.map(set => ({
 const PopularityContext = createContext<PopularityContextType | undefined>(undefined);
 
 export const PopularityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<PopularityItem[]>(() => {
-    const savedItems = localStorage.getItem('popularItems');
-    return savedItems ? JSON.parse(savedItems) : initialPopularItems;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('popularItems', JSON.stringify(items));
-  }, [items]);
+  const [items, setItems] = useState<PopularityItem[]>(initialPopularItems);
 
   const incrementPopularity = useCallback((item: Omit<PopularityItem, 'popularity'>) => {
     setItems(prevItems => {
@@ -88,6 +81,4 @@ export const usePopularity = () => {
   }
   return context;
 };
-
-// Очищаю localStorage для popularItems, чтобы сбросить старые популярные товары
-localStorage.removeItem('popularItems'); 
+ 
