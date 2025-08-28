@@ -10,6 +10,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface CategoryItem {
   id: number;
@@ -80,6 +81,7 @@ const Constructor: React.FC = () => {
   const { addItem } = useCart();
   const navigate = useNavigate();
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleItemToggle = (itemId: number, action: 'remove' | 'add' = 'remove') => {
     setSelectedItems((prev) => {
@@ -94,7 +96,15 @@ const Constructor: React.FC = () => {
       } else if (action === 'add') {
         // Добавляем товар, если не превышен лимит
         if (prev.length < maxItems) {
-          return [...prev, itemId];
+          const next = [...prev, itemId];
+          // На телефоне прокручиваем к правой панели, чтобы она была полностью видна
+          if (isSmallScreen) {
+            requestAnimationFrame(() => {
+              const panel = document.getElementById('selected-panel');
+              panel?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
+            });
+          }
+          return next;
         }
       }
       return prev;
@@ -217,6 +227,7 @@ const Constructor: React.FC = () => {
           gridTemplateColumns: { xs: '2fr 1fr', md: '2fr 1fr' }, 
           gap: { xs: 2, md: 4 },
           alignItems: 'start',
+          overflow: 'hidden'
         }}>
           {/* Категории товаров */}
           <Box>
@@ -293,8 +304,11 @@ const Constructor: React.FC = () => {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 position: 'sticky',
-                top: 20,
+                top: 12,
+                maxHeight: { xs: 'calc(100vh - 24px)', md: 'calc(100vh - 40px)' },
+                overflowY: 'auto'
               }}
+              id="selected-panel"
             >
               <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600 }}>
                 Выбранные товары
