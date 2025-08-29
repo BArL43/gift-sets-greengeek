@@ -55,6 +55,8 @@ const Cart: React.FC = () => {
   const [promoCode, setPromoCode] = React.useState<string>(localStorage.getItem('promo_code') || '');
   const [promoInfo, setPromoInfo] = React.useState<{ valid: boolean; message?: string; original_total?: number; discounted_total?: number; discount?: number } | null>(null);
   const [isValidatingPromo, setIsValidatingPromo] = React.useState<boolean>(false);
+  const discountMultiplier = promoInfo?.valid ? 0.85 : 1;
+  const discountedTotal = Math.round(totalPrice * discountMultiplier * 100) / 100;
 
   const handleIncreaseQuantity = (id: number) => {
     const item = items.find(i => i.id === id);
@@ -209,7 +211,7 @@ const Cart: React.FC = () => {
                               {item.title}
                             </Typography>
                             <Typography variant="h6" color="primary" gutterBottom sx={{ color: 'white' }}>
-                              {item.price} ₽
+                              {Math.round(item.price * discountMultiplier * 100) / 100} ₽
                             </Typography>
                           </Box>
                           {item.isCustomSet && (
@@ -272,7 +274,7 @@ const Cart: React.FC = () => {
                           color="primary"
                           sx={{ mr: 2, minWidth: 100, textAlign: 'right' }}
                         >
-                          {item.price * item.quantity} ₽
+                          {Math.round(item.price * item.quantity * discountMultiplier * 100) / 100} ₽
                         </Typography>
                         <IconButton
                           color="error"
@@ -340,14 +342,24 @@ const Cart: React.FC = () => {
                     <Typography variant="subtitle1" sx={{ mb: 1 }}>
                       Промокод
                     </Typography>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="Введите промокод"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      onBlur={validatePromo}
-                    />
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Введите промокод"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={isValidatingPromo || items.length === 0}
+                        onClick={validatePromo}
+                        sx={{ whiteSpace: 'nowrap' }}
+                      >
+                        Применить
+                      </Button>
+                    </Box>
                     {promoInfo?.valid && promoInfo.discounted_total !== undefined && promoInfo.original_total !== undefined && (
                       <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>
                         цена с учетом скидки будет {promoInfo.discounted_total} ₽ вместо {promoInfo.original_total} ₽
@@ -363,7 +375,7 @@ const Cart: React.FC = () => {
                     <Typography sx={{ color: theme.palette.text.secondary }}>
                       Товары ({totalItems})
                     </Typography>
-                    <Typography sx={{ color: theme.palette.text.primary }}>{totalPrice} ₽</Typography>
+                    <Typography sx={{ color: theme.palette.text.primary }}>{discountedTotal} ₽</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography sx={{ color: theme.palette.text.secondary }}>Доставка</Typography>
@@ -376,7 +388,7 @@ const Cart: React.FC = () => {
                     К оплате
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
-                    {promoInfo?.valid && promoInfo.discounted_total !== undefined ? promoInfo.discounted_total : totalPrice} ₽
+                    {discountedTotal} ₽
                   </Typography>
                 </Box>
                 <Button
