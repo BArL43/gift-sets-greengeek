@@ -172,15 +172,20 @@ const Checkout: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Промокод"
-                name="promo_code"
-                value={formData.promo_code}
-                onChange={handleChange}
-                onBlur={validatePromo}
-                placeholder="Введите промокод"
-              />
+              <Box sx={{ p: 2, border: '1px solid #e0e0e0', borderRadius: 2 }}>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                  Промокод
+                </Typography>
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Введите промокод"
+                  name="promo_code"
+                  value={formData.promo_code}
+                  onChange={handleChange}
+                  onBlur={validatePromo}
+                />
+              </Box>
             </Grid>
             {promoInfo?.valid && promoInfo.discounted_total !== undefined && promoInfo.original_total !== undefined && (
               <Grid item xs={12}>
