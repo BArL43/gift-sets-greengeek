@@ -8,6 +8,7 @@ import {
   Paper,
   IconButton,
   Divider,
+  TextField,
   useTheme,
   Collapse,
   List,
@@ -26,6 +27,7 @@ import {
   ExpandLess as ExpandLessIcon,
 } from '@mui/icons-material';
 import { useCart } from '../context/CartContext';
+import api from '../services/api';
 
 interface SetItem {
   id: number;
@@ -50,6 +52,9 @@ const Cart: React.FC = () => {
   const theme = useTheme();
   const { items, removeItem, updateQuantity, totalItems, totalPrice } = useCart();
   const [expandedItems, setExpandedItems] = React.useState<number[]>([]);
+  const [promoCode, setPromoCode] = React.useState<string>(localStorage.getItem('promo_code') || '');
+  const [promoInfo, setPromoInfo] = React.useState<{ valid: boolean; message?: string; original_total?: number; discounted_total?: number; discount?: number } | null>(null);
+  const [isValidatingPromo, setIsValidatingPromo] = React.useState<boolean>(false);
 
   const handleIncreaseQuantity = (id: number) => {
     const item = items.find(i => i.id === id);
@@ -71,6 +76,32 @@ const Cart: React.FC = () => {
         ? prev.filter(itemId => itemId !== id)
         : [...prev, id]
     );
+  };
+
+  const validatePromo = async () => {
+    const code = promoCode.trim();
+    if (!code) {
+      setPromoInfo(null);
+      localStorage.removeItem('promo_code');
+      return;
+    }
+    try {
+      setIsValidatingPromo(true);
+      const resp = await api.post('/promo/validate', {
+        items: items.map(i => ({ price: i.price, quantity: i.quantity })),
+        promo_code: code,
+      });
+      setPromoInfo(resp.data);
+      if (resp.data?.valid) {
+        localStorage.setItem('promo_code', code);
+      } else {
+        localStorage.removeItem('promo_code');
+      }
+    } catch (e: any) {
+      setPromoInfo({ valid: false, message: e.response?.data?.detail || 'Ошибка проверки промокода' });
+    } finally {
+      setIsValidatingPromo(false);
+    }
   };
 
   return (
@@ -305,6 +336,29 @@ const Cart: React.FC = () => {
                   Итого
                 </Typography>
                 <Box sx={{ mb: 2 }}>
+                  <Box sx={{ p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2, mb: 2 }}>
+                    <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                      Промокод
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label="Введите промокод"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                      onBlur={validatePromo}
+                    />
+                    {promoInfo?.valid && promoInfo.discounted_total !== undefined && promoInfo.original_total !== undefined && (
+                      <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>
+                        цена с учетом скидки будет {promoInfo.discounted_total} ₽ вместо {promoInfo.original_total} ₽
+                      </Typography>
+                    )}
+                    {promoInfo && !promoInfo.valid && promoInfo.message && (
+                      <Typography variant="body2" color="error.main" sx={{ mt: 1 }}>
+                        {promoInfo.message}
+                      </Typography>
+                    )}
+                  </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography sx={{ color: theme.palette.text.secondary }}>
                       Товары ({totalItems})
