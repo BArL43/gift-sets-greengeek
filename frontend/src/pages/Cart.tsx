@@ -376,7 +376,7 @@ const Cart: React.FC = () => {
                     К оплате
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
-                    {totalPrice} ₽
+                    {promoInfo?.valid && promoInfo.discounted_total !== undefined ? promoInfo.discounted_total : totalPrice} ₽
                   </Typography>
                 </Box>
                 <Button
