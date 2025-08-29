@@ -32,11 +32,16 @@ const Checkout: React.FC = () => {
     address: '',
     telegram: '',
     comments: '',
+    promo_code: '',
   });
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [promoInfo, setPromoInfo] = useState<{ valid: boolean; message?: string; original_total?: number; discounted_total?: number; discount?: number } | null>(null);
+  const [isValidatingPromo, setIsValidatingPromo] = useState(false);
+  const discountMultiplier = promoInfo?.valid ? 0.85 : 1;
+  const discountedTotal = Math.round(totalPrice * discountMultiplier * 100) / 100;
 
   useEffect(() => {
     if (user) {
@@ -46,7 +51,20 @@ const Checkout: React.FC = () => {
         phone: user.phone || '',
       }));
     }
+    // Prefill promo from cart storage
+    const savedPromo = localStorage.getItem('promo_code') || '';
+    if (savedPromo) {
+      setFormData(prev => ({ ...prev, promo_code: savedPromo }));
+    }
   }, [user]);
+
+  useEffect(() => {
+    // Auto-validate promo on mount or when items change, if we have a saved code
+    if (formData.promo_code) {
+      validatePromo();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.promo_code, items.length]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -78,7 +96,8 @@ const Checkout: React.FC = () => {
           price: item.price,
           composition: item.description || (item.items ? item.items.map(subItem => subItem.name).join(', ') : 'Состав не указан')
         })),
-        total_amount: totalPrice
+        total_amount: totalPrice,
+        promo_code: formData.promo_code,
       };
 
       console.log('Данные заказа:', orderData);
@@ -111,6 +130,25 @@ const Checkout: React.FC = () => {
       }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const validatePromo = async () => {
+    if (!formData.promo_code) {
+      setPromoInfo(null);
+      return;
+    }
+    try {
+      setIsValidatingPromo(true);
+      const response = await api.post('/promo/validate', {
+        items: items.map(i => ({ price: i.price, quantity: i.quantity })),
+        promo_code: formData.promo_code,
+      });
+      setPromoInfo(response.data);
+    } catch (err: any) {
+      setPromoInfo({ valid: false, message: err.response?.data?.detail || 'Ошибка проверки промокода' });
+    } finally {
+      setIsValidatingPromo(false);
     }
   };
 
@@ -223,6 +261,7 @@ const Checkout: React.FC = () => {
                     onChange={handleInputChange}
                   />
                 </Box>
+                
               </Box>
 
               {error && (
@@ -272,6 +311,7 @@ const Checkout: React.FC = () => {
             <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.primary }}>
               Ваш заказ
             </Typography>
+            
             <List>
               {items.map((item) => (
                 <ListItem key={item.id} sx={{ px: 0 }}>
@@ -280,7 +320,7 @@ const Checkout: React.FC = () => {
                     secondary={`Количество: ${item.quantity}`}
                   />
                   <Typography variant="body1" color="primary">
-                    {item.price * item.quantity} ₽
+                    {Math.round(item.price * item.quantity * discountMultiplier * 100) / 100} ₽
                   </Typography>
                 </ListItem>
               ))}
@@ -292,9 +332,23 @@ const Checkout: React.FC = () => {
                   Товары ({items.length})
                 </Typography>
                 <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
-                  {totalPrice} ₽
+                  {discountedTotal} ₽
                 </Typography>
               </Box>
+              {promoInfo?.valid && promoInfo.discounted_total !== undefined && promoInfo.original_total !== undefined && (
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="body2" color="success.main">
+                    цена с учетом скидки будет {promoInfo.discounted_total} ₽ вместо {promoInfo.original_total} ₽
+                  </Typography>
+                </Box>
+              )}
+              {promoInfo && !promoInfo.valid && promoInfo.message && (
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="body2" color="error.main">
+                    {promoInfo.message}
+                  </Typography>
+                </Box>
+              )}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
                   Доставка
@@ -310,7 +364,7 @@ const Checkout: React.FC = () => {
                 Итого к оплате
               </Typography>
               <Typography variant="h6" color="primary">
-                {totalPrice} ₽
+                {discountedTotal} ₽
               </Typography>
             </Box>
           </Paper>
