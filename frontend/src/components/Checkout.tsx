@@ -21,6 +21,7 @@ interface FormData {
   address: string;
   telegram: string;
   comments: string;
+  promo_code: string;
 }
 
 const Checkout: React.FC = () => {
@@ -31,9 +32,11 @@ const Checkout: React.FC = () => {
     phone: '',
     address: '',
     telegram: '',
-    comments: ''
+    comments: '',
+    promo_code: ''
   });
   const [error, setError] = useState<string | null>(null);
+  const [promoInfo, setPromoInfo] = useState<{ valid: boolean; message?: string; original_total?: number; discounted_total?: number; discount?: number } | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,6 +44,22 @@ const Checkout: React.FC = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const validatePromo = async () => {
+    if (!formData.promo_code) {
+      setPromoInfo(null);
+      return;
+    }
+    try {
+      const response = await api.post('/promo/validate', {
+        items: cartItems.map(i => ({ price: i.price, quantity: i.quantity })),
+        promo_code: formData.promo_code,
+      });
+      setPromoInfo(response.data);
+    } catch (err: any) {
+      setPromoInfo({ valid: false, message: err.response?.data?.detail || 'Ошибка проверки промокода' });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +79,8 @@ const Checkout: React.FC = () => {
         total_amount: totalAmount,
         shipping_address: formData.address,
         contact_phone: formData.phone,
-        comment: formData.comments
+        comment: formData.comments,
+        promo_code: formData.promo_code
       };
 
       console.log('Данные заказа:', orderData);
@@ -151,6 +171,31 @@ const Checkout: React.FC = () => {
                 rows={3}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Промокод"
+                name="promo_code"
+                value={formData.promo_code}
+                onChange={handleChange}
+                onBlur={validatePromo}
+                placeholder="Введите промокод"
+              />
+            </Grid>
+            {promoInfo?.valid && promoInfo.discounted_total !== undefined && promoInfo.original_total !== undefined && (
+              <Grid item xs={12}>
+                <Typography variant="body2" color="success.main">
+                  цена с учетом скидки будет {promoInfo.discounted_total} ₽ вместо {promoInfo.original_total} ₽
+                </Typography>
+              </Grid>
+            )}
+            {promoInfo && !promoInfo.valid && promoInfo.message && (
+              <Grid item xs={12}>
+                <Typography variant="body2" color="error.main">
+                  {promoInfo.message}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Box sx={{ mt: 2, textAlign: 'right' }}>
                 <Typography variant="h6" gutterBottom>
