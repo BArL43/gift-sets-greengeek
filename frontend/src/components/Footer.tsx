@@ -10,11 +10,11 @@ import {
   SvgIcon,
 } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const VkIcon: React.FC = (props) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
-    <path d="M3,5H6C6.11,5 6.26,5.09 6.32,5.2C6.32,5.2 7,6.61 7.39,7.34C8.12,8.67 8.5,9 8.76,9C8.9,9 9,8.86 9,8.5V6C9,5.68 9.2,5.5 9.5,5.5H12C12.16,5.5 12.29,5.56 12.38,5.67C12.38,5.67 12.5,5.83 12.5,6.06C12.5,6.06 12.53,6.61 12.53,7.39C12.53,7.87 12.59,8.06 12.8,8.06C13,8.06 13.29,7.78 14,6.76C14.62,5.87 15.08,5 15.08,5H18.08C18.5,5 18.68,5.27 18.5,5.68C18.5,5.68 17.39,7.91 16.06,9.59C15,10.93 14.37,11.38 13.91,11.38C13.62,11.38 13.5,11.12 13.5,10.76V9.5C13.5,9.14 13.42,9 13.26,9C13,9 12.5,9.5 11.65,10.53C10.7,11.68 9.88,12.5 9.41,12.5C8.29,12.5 6.5,9.59 5.5,7.5C4.92,6.2 4.7,5.68 4.7,5.68C4.6,5.38 4.77,5.2 5.12,5.2L3,5Z" />
+    <circle cx="12" cy="12" r="12" fill="#2787F5" />
+    <path fill="#FFFFFF" d="M4.5,7.5H7.1C7.19,7.5 7.32,7.58 7.38,7.69C7.38,7.69 8,9 8.34,9.65C9,10.88 9.33,11.17 9.56,11.17C9.69,11.17 9.78,11.05 9.78,10.7V8.5C9.78,8.2 9.95,8.05 10.23,8.05H12.6C12.75,8.05 12.86,8.11 12.94,8.22C12.94,8.22 13.05,8.37 13.05,8.58C13.05,8.58 13.08,9.1 13.08,9.83C13.08,10.27 13.13,10.44 13.32,10.44C13.5,10.44 13.77,10.18 14.44,9.2C15,8.36 15.43,7.5 15.43,7.5H17.93C18.31,7.5 18.47,7.75 18.31,8.12C18.31,8.12 17.29,10.17 16.08,11.71C15.12,12.9 14.54,13.31 14.12,13.31C13.86,13.31 13.75,13.07 13.75,12.74V11.6C13.75,11.28 13.68,11.15 13.53,11.15C13.3,11.15 12.85,11.6 12.06,12.54C11.2,13.57 10.46,14.31 10.03,14.31C9,14.31 7.36,11.71 6.45,9.83C5.92,8.66 5.72,8.12 5.72,8.12C5.62,7.84 5.78,7.69 6.1,7.69L4.5,7.5Z" />
   </SvgIcon>
 );
 
@@ -68,30 +68,28 @@ const Footer: React.FC = () => {
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Link href="mailto:greengeek.help@gmail.com" color="inherit" underline="hover">
+                <Link
+                  href="#"
+                  color="inherit"
+                  underline="hover"
+                  onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText('greengeek.help@gmail.com'); }}
+                  title="Скопировать email"
+                  sx={{ cursor: 'pointer' }}
+                >
                   Email: greengeek.help@gmail.com
                 </Link>
-                <IconButton
-                  size="small"
-                  color="primary"
-                  aria-label="Скопировать email"
-                  onClick={() => navigator.clipboard.writeText('greengeek.help@gmail.com')}
-                >
-                  <ContentCopyIcon fontSize="inherit" />
-                </IconButton>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Link href="https://t.me/greengeek_zd" target="_blank" rel="noopener noreferrer" color="inherit" underline="hover">
+                <Link
+                  href="#"
+                  color="inherit"
+                  underline="hover"
+                  onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText('@greengeek_zd'); }}
+                  title="Скопировать Telegram"
+                  sx={{ cursor: 'pointer' }}
+                >
                   Telegram: @greengeek_zd
                 </Link>
-                <IconButton
-                  size="small"
-                  color="primary"
-                  aria-label="Скопировать Telegram"
-                  onClick={() => navigator.clipboard.writeText('@greengeek_zd')}
-                >
-                  <ContentCopyIcon fontSize="inherit" />
-                </IconButton>
               </Box>
             </Box>
           </Box>
