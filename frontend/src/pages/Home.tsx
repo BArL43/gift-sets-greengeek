@@ -329,14 +329,7 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Delivery Notice After Popular Sets */}
-      <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 } }}>
-        <Paper elevation={0} sx={{ p: 3, textAlign: 'center', borderRadius: 3, background: (theme) => theme.palette.background.paper }}>
-          <Typography variant="h6" sx={{ fontWeight: 600, color: (theme) => theme.palette.text.primary }}>
-            Доставка только по Зеленодольску
-          </Typography>
-        </Paper>
-      </Container>
+      
 
       {/* Features Section (one row on all screens) */}
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>

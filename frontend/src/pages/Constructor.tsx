@@ -46,9 +46,9 @@ const categories = [
     title: 'Для напитков',
     items: [
       { id: 9, name: 'Стаканчики', price: 485, image: '/стаканчики.jpg' },
-      { id: 14, name: 'Трубочки стеклянные', price: 105, image: 'https://via.placeholder.com/200x200?text=Трубочки' },
+      { id: 14, name: 'Трубочки стеклянные', price: 105, image: '/стаканчики.jpg' },
       { id: 17, name: 'Формы для льда', price: 429, image: '/формы_для_льда.jpg' },
-      { id: 10, name: 'Зонтики', price: 13, image: 'https://via.placeholder.com/200x200?text=Зонтики' },
+      { id: 10, name: 'Зонтики', price: 13, image: '/стаканчики.jpg' },
     ],
   },
   {
