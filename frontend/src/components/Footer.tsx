@@ -11,6 +11,7 @@ import {
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Footer: React.FC = () => {
   return (
@@ -61,15 +62,32 @@ const Footer: React.FC = () => {
               Контакты
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography variant="body2" color="text.secondary">
-                Телефон: +7 (***) ***-**-**
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Email: ****@giftsets.ru
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Адрес: г. Зеленодольск
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Link href="mailto:greengeek.help@gmail.com" color="inherit" underline="hover">
+                  Email: greengeek.help@gmail.com
+                </Link>
+                <IconButton
+                  size="small"
+                  color="primary"
+                  aria-label="Скопировать email"
+                  onClick={() => navigator.clipboard.writeText('greengeek.help@gmail.com')}
+                >
+                  <ContentCopyIcon fontSize="inherit" />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Link href="https://t.me/greengeek_zd" target="_blank" rel="noopener noreferrer" color="inherit" underline="hover">
+                  Telegram: @greengeek_zd
+                </Link>
+                <IconButton
+                  size="small"
+                  color="primary"
+                  aria-label="Скопировать Telegram"
+                  onClick={() => navigator.clipboard.writeText('@greengeek_zd')}
+                >
+                  <ContentCopyIcon fontSize="inherit" />
+                </IconButton>
+              </Box>
             </Box>
           </Box>
 
