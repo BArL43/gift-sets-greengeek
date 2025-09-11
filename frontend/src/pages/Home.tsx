@@ -329,6 +329,15 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
+      {/* Delivery Notice After Popular Sets */}
+      <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 } }}>
+        <Paper elevation={0} sx={{ p: 3, textAlign: 'center', borderRadius: 3, background: (theme) => theme.palette.background.paper }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, color: (theme) => theme.palette.text.primary }}>
+            Доставка только по Зеленодольску
+          </Typography>
+        </Paper>
+      </Container>
+
       {/* Features Section (one row on all screens) */}
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, overflowX: 'auto' }}>
@@ -340,7 +349,7 @@ const Home: React.FC = () => {
           <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
             <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🚚</Typography>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Быстрая доставка</Typography>
-            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Доставляем по Зеленодольску и Казани в день заказа</Typography>
+            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Доставляем по Зеленодольску в день заказа</Typography>
           </Paper>
           <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
             <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>💝</Typography>
