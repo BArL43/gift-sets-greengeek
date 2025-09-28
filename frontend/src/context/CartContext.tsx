@@ -44,6 +44,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [items]);
 
+  const deliveryCost = useMemo(() => {
+    return totalPrice > 0 ? 120 : 0; // Доставка от 120 рублей
+  }, [totalPrice]);
+
+  const totalPriceWithDelivery = useMemo(() => {
+    return totalPrice + deliveryCost;
+  }, [totalPrice, deliveryCost]);
+
   const totalItems = useMemo(() => {
     return items.reduce((total, item) => total + item.quantity, 0);
   }, [items]);
@@ -88,6 +96,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const value = {
     items,
     totalPrice,
+    deliveryCost,
+    totalPriceWithDelivery,
     totalItems,
     addItem,
     removeItem,
