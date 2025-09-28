@@ -380,7 +380,7 @@ const Cart: React.FC = () => {
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography sx={{ color: theme.palette.text.secondary }}>Доставка</Typography>
-                    <Typography sx={{ color: theme.palette.text.primary }}>{deliveryCost} ₽</Typography>
+                    <Typography sx={{ color: theme.palette.text.primary }}>от {deliveryCost} ₽</Typography>
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
@@ -389,7 +389,7 @@ const Cart: React.FC = () => {
                     К оплате
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
-                    {finalTotal} ₽
+                    от {finalTotal} ₽
                   </Typography>
                 </Box>
                 <Button

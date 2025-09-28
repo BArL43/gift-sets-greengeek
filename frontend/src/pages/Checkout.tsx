@@ -355,7 +355,7 @@ const Checkout: React.FC = () => {
                   Доставка
                 </Typography>
                 <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
-                  {deliveryCost} ₽
+                  от {deliveryCost} ₽
                 </Typography>
               </Box>
             </Box>
@@ -365,7 +365,7 @@ const Checkout: React.FC = () => {
                 Итого к оплате
               </Typography>
               <Typography variant="h6" color="primary">
-                {finalTotal} ₽
+                от {finalTotal} ₽
               </Typography>
             </Box>
           </Paper>
