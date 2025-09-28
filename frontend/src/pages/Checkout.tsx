@@ -23,7 +23,7 @@ import api from '../services/api';
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, totalPrice, deliveryCost, totalPriceWithDelivery, clearCart } = useCart();
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -42,6 +42,7 @@ const Checkout: React.FC = () => {
   const [isValidatingPromo, setIsValidatingPromo] = useState(false);
   const discountMultiplier = promoInfo?.valid ? 0.85 : 1;
   const discountedTotal = Math.round(totalPrice * discountMultiplier * 100) / 100;
+  const finalTotal = discountedTotal + deliveryCost;
 
   useEffect(() => {
     if (user) {
@@ -96,7 +97,7 @@ const Checkout: React.FC = () => {
           price: item.price,
           composition: item.description || (item.items ? item.items.map(subItem => subItem.name).join(', ') : 'Состав не указан')
         })),
-        total_amount: totalPrice,
+        total_amount: finalTotal,
         promo_code: formData.promo_code,
       };
 
@@ -354,7 +355,7 @@ const Checkout: React.FC = () => {
                   Доставка
                 </Typography>
                 <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
-                  Бесплатно
+                  {deliveryCost} ₽
                 </Typography>
               </Box>
             </Box>
@@ -364,7 +365,7 @@ const Checkout: React.FC = () => {
                 Итого к оплате
               </Typography>
               <Typography variant="h6" color="primary">
-                {discountedTotal} ₽
+                {finalTotal} ₽
               </Typography>
             </Box>
           </Paper>
