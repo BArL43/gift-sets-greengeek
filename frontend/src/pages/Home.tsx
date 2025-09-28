@@ -75,7 +75,7 @@ const Home: React.FC = () => {
               color: theme.palette.text.primary,
             }}
           >
-            Создаем особенные моменты
+            Создаем особенные моменты ✨
           </Typography>
           <Typography 
             variant="h5" 
@@ -335,17 +335,17 @@ const Home: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, overflowX: 'auto' }}>
           <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
-            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🎁</Typography>
+            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🎁✨</Typography>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Уникальные наборы</Typography>
             <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Каждый набор создается с любовью и вниманием к деталям</Typography>
           </Paper>
           <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
-            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🚚</Typography>
+            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>🚚⚡</Typography>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Быстрая доставка</Typography>
-            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Доставляем по Зеленодольску в день заказа</Typography>
+            <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>По Зеленодольску - в день заказа, по всей России - в течение недели</Typography>
           </Paper>
           <Paper elevation={0} sx={{ p: 4, textAlign: 'center', borderRadius: 4, background: theme.palette.background.paper, minWidth: 280 }}>
-            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>💝</Typography>
+            <Typography variant="h2" sx={{ mb: 2, color: theme.palette.primary.main }}>💝🎯</Typography>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: theme.palette.text.primary }}>Персональный подход</Typography>
             <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>Создаем индивидуальные наборы под ваши пожелания</Typography>
           </Paper>
@@ -388,7 +388,7 @@ const Home: React.FC = () => {
               color: 'white',
             }}
           >
-            Собери свой набор
+            Собери свой набор 🛠️
           </Typography>
           <Typography 
             variant="h6" 
@@ -451,7 +451,7 @@ const Home: React.FC = () => {
             },
           }}
         >
-          Отзывы наших клиентов
+          Отзывы наших клиентов 💬
         </Typography>
         <Paper
           elevation={0}
