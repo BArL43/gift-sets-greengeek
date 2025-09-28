@@ -19,6 +19,8 @@ export interface CartItem {
 export interface CartContextType {
   items: CartItem[];
   totalPrice: number;
+  deliveryCost: number;
+  totalPriceWithDelivery: number;
   totalItems: number;
   addItem: (item: CartItem) => void;
   removeItem: (id: number) => void;
