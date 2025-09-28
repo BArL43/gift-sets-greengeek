@@ -50,13 +50,14 @@ interface CartItem {
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { items, removeItem, updateQuantity, totalItems, totalPrice } = useCart();
+  const { items, removeItem, updateQuantity, totalItems, totalPrice, deliveryCost, totalPriceWithDelivery } = useCart();
   const [expandedItems, setExpandedItems] = React.useState<number[]>([]);
   const [promoCode, setPromoCode] = React.useState<string>(localStorage.getItem('promo_code') || '');
   const [promoInfo, setPromoInfo] = React.useState<{ valid: boolean; message?: string; original_total?: number; discounted_total?: number; discount?: number } | null>(null);
   const [isValidatingPromo, setIsValidatingPromo] = React.useState<boolean>(false);
   const discountMultiplier = promoInfo?.valid ? 0.85 : 1;
   const discountedTotal = Math.round(totalPrice * discountMultiplier * 100) / 100;
+  const finalTotal = discountedTotal + deliveryCost;
 
   const handleIncreaseQuantity = (id: number) => {
     const item = items.find(i => i.id === id);
@@ -379,7 +380,7 @@ const Cart: React.FC = () => {
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography sx={{ color: theme.palette.text.secondary }}>Доставка</Typography>
-                    <Typography sx={{ color: theme.palette.text.primary }}>Бесплатно</Typography>
+                    <Typography sx={{ color: theme.palette.text.primary }}>{deliveryCost} ₽</Typography>
                   </Box>
                 </Box>
                 <Divider sx={{ my: 2, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
@@ -388,7 +389,7 @@ const Cart: React.FC = () => {
                     К оплате
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
-                    {discountedTotal} ₽
+                    {finalTotal} ₽
                   </Typography>
                 </Box>
                 <Button
