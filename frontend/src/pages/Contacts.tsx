@@ -1,126 +1,85 @@
 import React, { useState } from 'react';
 import {
-  Box,
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  TextField,
-  Button,
   Alert,
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
 } from '@mui/material';
-import api from '../services/api'; // путь может отличаться, если структура другая
+import api from '../services/api';
 
 const Contacts: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    setSuccess(false);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setStatus('sending');
 
     try {
-      // Отправляем сообщение на backend
-      const response = await api.post('/contact/', {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      });
-
-      if (response.status === 200 && response.data.ok) {
-        setSuccess(true);
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setSuccess(false), 5000);
-      } else {
-        setError('Не удалось отправить сообщение. Попробуйте позже.');
-      }
-    } catch (error: any) {
-      setError(
-        error.response?.data?.detail ||
-        'Произошла ошибка при отправке сообщения. Попробуйте позже.'
-      );
-    } finally {
-      setIsSubmitting(false);
+      await api.post('/contact/', formData);
+      setFormData({ name: '', email: '', message: '' });
+      setStatus('success');
+    } catch {
+      setStatus('error');
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Card>
-        <CardContent>
-          <Typography variant="h4" gutterBottom>
-            Связаться с нами
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit}>
-            <TextField
-              label="Имя"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              label="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-              type="email"
-            />
-            <TextField
-              label="Сообщение"
-              name="message"
-              value={formData.message}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-              multiline
-              rows={4}
-            />
-            {error && (
-              <Alert severity="error" sx={{ mt: 2 }}>
-                {error}
-              </Alert>
-            )}
-            {success && (
-              <Alert severity="success" sx={{ mt: 2 }}>
-                Сообщение успешно отправлено!
-              </Alert>
-            )}
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mt: 2 }}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Отправка...' : 'Отправить'}
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
+    <Container maxWidth="sm" sx={{ py: { xs: 6, md: 10 } }}>
+      <Paper sx={{ p: { xs: 3, md: 4 } }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Связаться с нами
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          Оставьте сообщение, и команда GreenGeek свяжется с вами.
+        </Typography>
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 2 }}>
+          <TextField
+            required
+            label="Имя"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            type="email"
+            label="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            multiline
+            minRows={5}
+            label="Сообщение"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+          />
+
+          {status === 'success' && (
+            <Alert severity="success">Сообщение отправлено.</Alert>
+          )}
+          {status === 'error' && (
+            <Alert severity="error">Не удалось отправить сообщение. Попробуйте ещё раз.</Alert>
+          )}
+
+          <Button type="submit" variant="contained" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Отправляем...' : 'Отправить'}
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 };
