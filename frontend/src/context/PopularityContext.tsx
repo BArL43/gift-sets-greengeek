@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import { giftSets } from '../data/giftSets';
 
 interface PopularityItem {
@@ -27,7 +27,7 @@ const imageById: Record<number, string> = {
   8: '/набор_со_свечей.jpg',
 };
 
-const initialPopularItems: PopularityItem[] = giftSets.map(set => ({
+const initialPopularItems: PopularityItem[] = giftSets.map((set) => ({
   id: set.id,
   title: set.title,
   price: set.price,
@@ -36,7 +36,7 @@ const initialPopularItems: PopularityItem[] = giftSets.map(set => ({
   reviews: 10,
   description: set.description,
   composition: set.composition,
-  popularity: 100 - set.id * 10 // или другое значение, чтобы сортировать
+  popularity: 100 - set.id * 10,
 }));
 
 const PopularityContext = createContext<PopularityContextType | undefined>(undefined);
@@ -45,40 +45,37 @@ export const PopularityProvider: React.FC<{ children: ReactNode }> = ({ children
   const [items, setItems] = useState<PopularityItem[]>(initialPopularItems);
 
   const incrementPopularity = useCallback((item: Omit<PopularityItem, 'popularity'>) => {
-    setItems(prevItems => {
-      const existingItem = prevItems.find(i => i.id === item.id);
-      if (existingItem) {
-        return prevItems.map(i =>
-          i.id === item.id ? { ...i, popularity: i.popularity + 1 } : i
+    setItems((current) => {
+      const existing = current.find((candidate) => candidate.id === item.id);
+      if (existing) {
+        return current.map((candidate) =>
+          candidate.id === item.id
+            ? { ...candidate, popularity: candidate.popularity + 1 }
+            : candidate,
         );
       }
-      return [...prevItems, { ...item, popularity: 1 }];
+      return [...current, { ...item, popularity: 1 }];
     });
   }, []);
 
-  const getPopularItems = useCallback((limit: number = 4) => {
-    const sortedItems = [...items].sort((a, b) => b.popularity - a.popularity);
-    return sortedItems.slice(0, limit);
-  }, [items]);
-
-  const value = React.useMemo(() => ({
-    items,
-    incrementPopularity,
-    getPopularItems,
-  }), [items, incrementPopularity, getPopularItems]);
-
-  return (
-    <PopularityContext.Provider value={value}>
-      {children}
-    </PopularityContext.Provider>
+  const getPopularItems = useCallback(
+    (limit: number = 4) =>
+      [...items].sort((a, b) => b.popularity - a.popularity).slice(0, limit),
+    [items],
   );
+
+  const value = React.useMemo(
+    () => ({ items, incrementPopularity, getPopularItems }),
+    [items, incrementPopularity, getPopularItems],
+  );
+
+  return <PopularityContext.Provider value={value}>{children}</PopularityContext.Provider>;
 };
 
 export const usePopularity = () => {
   const context = useContext(PopularityContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('usePopularity must be used within a PopularityProvider');
   }
   return context;
 };
- 
