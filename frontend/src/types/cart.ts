@@ -1,3 +1,11 @@
+export interface CartSubItem {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
 export interface CartItem {
   id: number;
   title: string;
@@ -8,12 +16,7 @@ export interface CartItem {
   reviews?: number;
   description?: string;
   isCustomSet?: boolean;
-  items?: {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-  }[];
+  items?: CartSubItem[];
 }
 
 export interface CartContextType {
@@ -26,4 +29,4 @@ export interface CartContextType {
   removeItem: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
-} 
+}
