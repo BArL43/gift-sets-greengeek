@@ -10,7 +10,6 @@ import {
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface CategoryItem {
   id: number;
@@ -81,12 +80,10 @@ const Constructor: React.FC = () => {
   const { addItem } = useCart();
   const navigate = useNavigate();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleItemToggle = (itemId: number, action: 'remove' | 'add' = 'remove') => {
     setSelectedItems((prev) => {
       if (action === 'remove') {
-        // Удаляем один экземпляр товара
         const index = prev.indexOf(itemId);
         if (index > -1) {
           const newItems = [...prev];
@@ -94,7 +91,6 @@ const Constructor: React.FC = () => {
           return newItems;
         }
       } else if (action === 'add') {
-        // Добавляем товар, если не превышен лимит
         if (prev.length < maxItems) {
           return [...prev, itemId];
         }
@@ -133,7 +129,7 @@ const Constructor: React.FC = () => {
     const baseTotalPrice = calculateTotal();
 
     const packagingPrice = 119;
-    const packagingQuantity = 1; // одна упаковка на весь набор
+    const packagingQuantity = 1;
     const packagingTotal = packagingPrice * packagingQuantity;
 
     const cartItems = [
@@ -148,18 +144,16 @@ const Constructor: React.FC = () => {
         id: 999001,
         name: 'Оформление (коробка, бумага, открытка, ленточка)',
         price: packagingPrice,
-        image: '/images/default-set.jpg',
-        quantity: packagingQuantity,
-      },
+        image: '/набор_со_свечей.jpg',
+        quantity: packagingQuantity
+      }
     ];
-
-    const totalPriceWithPackaging = baseTotalPrice + packagingTotal;
 
     addItem({
       id: Date.now(),
-      title: 'Подарочный набор',
-      price: totalPriceWithPackaging,
-      image: selectedItemsDetails[0]?.image || '/images/default-set.jpg',
+      title: 'Собственный набор',
+      price: baseTotalPrice + packagingTotal,
+      image: selectedItemsDetails[0]?.image || '/набор_со_свечей.jpg',
       quantity: 1,
       isCustomSet: true,
       items: cartItems,
@@ -169,264 +163,85 @@ const Constructor: React.FC = () => {
   };
 
   return (
-    <Box sx={{ 
-      position: 'relative',
-      py: { xs: 6, md: 10 },
-      background: 'linear-gradient(45deg, #705F2C 0%, #00362A 100%)',
-      color: 'white',
-      overflow: 'hidden',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'url("/images/pattern.png")',
-        opacity: 0.1,
-        zIndex: 1,
-      },
-    }}>
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-        <Typography 
-          variant="h3" 
-          component="h2" 
-          gutterBottom 
-          align="center"
-          sx={{
-            fontWeight: 600,
-            mb: 6,
-            position: 'relative',
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              bottom: -16,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 60,
-              height: 4,
-              background: theme.palette.secondary.dark,
-              borderRadius: 2,
-            },
-            color: 'white',
-          }}
-        >
-          Конструктор подарков
+    <Box sx={{ py: { xs: 4, md: 6 } }}>
+      <Container maxWidth="lg">
+        <Typography variant="h3" component="h1" align="center" gutterBottom>
+          Соберите свой подарочный набор
+        </Typography>
+        <Typography variant="body1" align="center" sx={{ mb: 4 }}>
+          Выберите до {maxItems} товаров. Оформление набора стоит 119 ₽.
         </Typography>
 
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' }, 
-          gap: { xs: 2, md: 4 },
-          alignItems: 'start'
-        }}>
-          {/* Категории товаров */}
-          <Box>
-            {categories.map((category) => (
-              <Paper
-                key={category.title}
-                elevation={0}
-                sx={{
-                  p: 4,
-                  borderRadius: 4,
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  mb: 4,
-                  color: 'white',
-                }}
-              >
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: 'white' }}>
-                  {category.title}
-                </Typography>
-                <Box sx={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
-                  gap: { xs: 1.5, md: 2 },
-                }}>
-                  {category.items.map((item) => (
-                    <Paper
-                      key={item.id}
-                      elevation={0}
-                      onClick={() => handleItemToggle(item.id, 'add')}
-                      sx={{
-                        p: 2,
-                        borderRadius: 2,
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          background: 'rgba(255, 255, 255, 0.15)',
-                          transform: 'translateY(-4px)',
-                        },
-                      }}
-                    >
-                      <Box
-                        component="img"
-                        src={item.image}
-                        alt={item.name}
-                        sx={{
-                          width: '100%',
-                          height: { xs: 90, sm: 110, md: 120 },
-                          objectFit: 'cover',
-                          borderRadius: 1,
-                          mb: { xs: 0.5, md: 1 },
-                        }}
-                      />
-                      <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 500, fontSize: { xs: '0.9rem', md: '1rem' } }}>
-                        {item.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'white', opacity: 0.8, fontSize: { xs: '0.85rem', md: '0.875rem' } }}>
-                        {item.price} ₽
-                      </Typography>
-                    </Paper>
-                  ))}
-                </Box>
-              </Paper>
-            ))}
-          </Box>
-
-          {/* Выбранные товары */}
-          <Box>
-            <Paper
-              elevation={0}
+        {categories.map((category) => (
+          <Paper key={category.id} sx={{ p: 3, mb: 3 }}>
+            <Typography variant="h5" gutterBottom>
+              {category.title}
+            </Typography>
+            <Box
               sx={{
-                p: 3,
-                borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                position: 'sticky',
-                top: 12,
-                maxHeight: { xs: 'calc(100vh - 24px)', md: 'calc(100vh - 40px)' },
-                overflowY: 'auto'
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+                gap: 2,
               }}
-              id="selected-panel"
             >
-              <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600 }}>
-                Выбранные товары
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'white', opacity: 0.8, mb: 3 }}>
-                Выбрано {selectedItems.length} из {maxItems} позиций
-              </Typography>
-
-              {selectedItems.length > 0 ? (
-                <>
-                  <Box sx={{ mb: 3 }}>
-                    {getSelectedItemsDetails().map((item) => (
-                      <Paper
-                        key={item.id}
-                        elevation={0}
-                        sx={{
-                          p: 2,
-                          borderRadius: 2,
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 2,
-                          mb: 2,
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            background: 'rgba(255, 255, 255, 0.15)',
-                          },
-                        }}
-                      >
-                        <Box sx={{ flex: 1 }}>
-                          <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 500 }}>
-                            {item.name}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'white', opacity: 0.8 }}>
-                            {item.price} ₽
-                          </Typography>
-                        </Box>
-                        <Box sx={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          gap: 1,
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          borderRadius: '20px',
-                          px: 1,
-                          py: 0.5
-                        }}>
-                          <Button
-                            size="small"
-                            onClick={() => handleItemToggle(item.id, 'remove')}
-                            sx={{
-                              minWidth: 'auto',
-                              p: 0.5,
-                              color: 'white',
-                              '&:hover': {
-                                background: 'rgba(255, 255, 255, 0.1)',
-                              },
-                            }}
-                          >
-                            -
-                          </Button>
-                          <Typography variant="body2" sx={{ color: 'white' }}>
-                            {getItemQuantity(item.id)}
-                          </Typography>
-                          <Button
-                            size="small"
-                            onClick={() => handleItemToggle(item.id, 'add')}
-                            sx={{
-                              minWidth: 'auto',
-                              p: 0.5,
-                              color: 'white',
-                              '&:hover': {
-                                background: 'rgba(255, 255, 255, 0.1)',
-                              },
-                            }}
-                          >
-                            +
-                          </Button>
-                        </Box>
-                      </Paper>
-                    ))}
-                  </Box>
-
-                  <Divider sx={{ my: 3, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
-
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="h6" gutterBottom sx={{ color: 'white' }}>
-                      Итого
-                    </Typography>
-                    <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>
-                      {calculateTotal()} ₽
-                    </Typography>
-                  </Box>
-
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    size="large"
-                    onClick={handleAddToCart}
-                    sx={{
-                      py: 1.5,
-                      borderRadius: '30px',
-                      fontSize: '1.1rem',
-                      boxShadow: '0 4px 14px rgba(0,0,0,0.2)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                      color: 'white',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                      },
-                    }}
+              {category.items.map((item) => {
+                const quantity = getItemQuantity(item.id);
+                return (
+                  <Paper
+                    key={item.id}
+                    variant="outlined"
+                    sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}
                   >
-                    Добавить в корзину
-                  </Button>
-                </>
-              ) : (
-                <Typography variant="body2" sx={{ color: 'white', opacity: 0.8, textAlign: 'center', py: 4 }}>
-                  Выберите товары из категорий слева
-                </Typography>
-              )}
-            </Paper>
-          </Box>
+                    <Box
+                      component="img"
+                      src={item.image}
+                      alt={item.name}
+                      sx={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 2 }}
+                    />
+                    <Typography variant="h6">{item.name}</Typography>
+                    <Typography>{item.price} ₽</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 'auto' }}>
+                      <Button
+                        variant="outlined"
+                        disabled={quantity === 0}
+                        onClick={() => handleItemToggle(item.id, 'remove')}
+                      >
+                        −
+                      </Button>
+                      <Typography>{quantity}</Typography>
+                      <Button
+                        variant="contained"
+                        disabled={selectedItems.length >= maxItems}
+                        onClick={() => handleItemToggle(item.id, 'add')}
+                      >
+                        +
+                      </Button>
+                    </Box>
+                  </Paper>
+                );
+              })}
+            </Box>
+          </Paper>
+        ))}
+
+        <Divider sx={{ my: 3 }} />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+          <Typography variant="h5">
+            Итого: {calculateTotal() + 119} ₽
+          </Typography>
+          <Button
+            variant="contained"
+            size="large"
+            disabled={selectedItems.length === 0}
+            onClick={handleAddToCart}
+            sx={{ backgroundColor: theme.palette.primary.main }}
+          >
+            Добавить набор в корзину
+          </Button>
         </Box>
       </Container>
     </Box>
   );
 };
 
-export default Constructor; 
+export default Constructor;
