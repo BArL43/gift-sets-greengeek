@@ -43,7 +43,7 @@ const GiftSet: React.FC = () => {
         composition: giftSet.composition,
       });
     }
-  }, [giftSet]);
+  }, [giftSet, incrementPopularity]);
 
   if (!giftSet) {
     return (
@@ -238,4 +238,4 @@ const GiftSet: React.FC = () => {
   );
 };
 
-export default GiftSet; 
+export default GiftSet;
