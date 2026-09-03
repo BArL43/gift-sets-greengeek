@@ -1,75 +1,54 @@
-import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { CartItem, CartContextType } from '../types/cart';
-import { useAuth } from './AuthContext';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+const CART_STORAGE_KEY = 'greengeek_cart';
+
+const loadCart = (): CartItem[] => {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    localStorage.removeItem(CART_STORAGE_KEY);
+    return [];
+  }
+};
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const { isAuthenticated, user } = useAuth();
+  const [items, setItems] = useState<CartItem[]>(loadCart);
 
-  // Загрузка корзины при монтировании компонента или изменении пользователя
   useEffect(() => {
-    if (isAuthenticated && user) {
-      // Загружаем корзину пользователя
-      const userCart = localStorage.getItem(`cart_${user.email}`);
-      if (userCart) {
-        setItems(JSON.parse(userCart));
-      } else {
-        setItems([]);
-      }
-    } else {
-      // Загружаем анонимную корзину
-      const anonymousCart = localStorage.getItem('anonymous_cart');
-      if (anonymousCart) {
-        setItems(JSON.parse(anonymousCart));
-      } else {
-        setItems([]);
-      }
-    }
-  }, [isAuthenticated, user]);
-
-  // Сохранение корзины при изменении items
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      // Сохраняем корзину пользователя
-      localStorage.setItem(`cart_${user.email}`, JSON.stringify(items));
-    } else {
-      // Сохраняем анонимную корзину
-      localStorage.setItem('anonymous_cart', JSON.stringify(items));
-    }
-  }, [items, isAuthenticated, user]);
-
-  const totalPrice = useMemo(() => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  const deliveryCost = useMemo(() => {
-    return totalPrice > 0 ? 120 : 0; // Доставка от 120 рублей
-  }, [totalPrice]);
+  const totalPrice = useMemo(
+    () => items.reduce((total, item) => total + item.price * item.quantity, 0),
+    [items],
+  );
 
-  const totalPriceWithDelivery = useMemo(() => {
-    return totalPrice + deliveryCost;
-  }, [totalPrice, deliveryCost]);
-
-  const totalItems = useMemo(() => {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  }, [items]);
+  const deliveryCost = useMemo(() => (totalPrice > 0 ? 120 : 0), [totalPrice]);
+  const totalPriceWithDelivery = totalPrice + deliveryCost;
+  const totalItems = useMemo(
+    () => items.reduce((total, item) => total + item.quantity, 0),
+    [items],
+  );
 
   const addItem = (item: CartItem) => {
-    setItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
-      if (existingItem) {
-        return prevItems.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
+    setItems((current) => {
+      const existing = current.find((candidate) => candidate.id === item.id);
+      if (!existing) {
+        return [...current, { ...item, quantity: 1 }];
       }
-      return [...prevItems, { ...item, quantity: 1 }];
+      return current.map((candidate) =>
+        candidate.id === item.id
+          ? { ...candidate, quantity: candidate.quantity + 1 }
+          : candidate,
+      );
     });
   };
 
   const removeItem = (id: number) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setItems((current) => current.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id: number, quantity: number) => {
@@ -77,41 +56,39 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       removeItem(id);
       return;
     }
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      )
+    setItems((current) =>
+      current.map((item) => (item.id === id ? { ...item, quantity } : item)),
     );
   };
 
   const clearCart = () => {
     setItems([]);
-    if (isAuthenticated && user) {
-      localStorage.removeItem(`cart_${user.email}`);
-    } else {
-      localStorage.removeItem('anonymous_cart');
-    }
+    localStorage.removeItem(CART_STORAGE_KEY);
   };
 
-  const value = {
-    items,
-    totalPrice,
-    deliveryCost,
-    totalPriceWithDelivery,
-    totalItems,
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearCart,
-  };
-
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider
+      value={{
+        items,
+        totalPrice,
+        deliveryCost,
+        totalPriceWithDelivery,
+        totalItems,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
-}; 
+};
