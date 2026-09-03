@@ -1,3 +1,4 @@
+import asyncio
 import html
 import os
 from typing import Any
@@ -79,7 +80,9 @@ class Order(BaseModel):
 PROMO_CODE = "HELLOGREEN"
 PROMO_DISCOUNT_PERCENT = 15
 PROMO_MAX_USES = int(os.getenv("PROMO_MAX_USES", "10"))
+DELIVERY_COST_RUB = 120.0
 promo_usage_count = 0
+promo_lock = asyncio.Lock()
 
 
 class PromoRequest(BaseModel):
@@ -106,7 +109,10 @@ async def validate_promo(promo: PromoRequest):
             "message": "Неверный промокод",
             "original_total": original_total,
         }
-    if promo_usage_count >= PROMO_MAX_USES:
+
+    async with promo_lock:
+        exhausted = promo_usage_count >= PROMO_MAX_USES
+    if exhausted:
         return {
             "valid": False,
             "message": "Промокод больше недоступен (лимит исчерпан)",
@@ -136,13 +142,16 @@ async def create_order(order: Order):
     if order.promo_code:
         if order.promo_code.strip().upper() != PROMO_CODE:
             raise HTTPException(status_code=400, detail="Неверный промокод")
-        if promo_usage_count >= PROMO_MAX_USES:
-            raise HTTPException(status_code=400, detail="Промокод больше недоступен (лимит исчерпан)")
         applied_discount = round(calculated_total * (PROMO_DISCOUNT_PERCENT / 100), 2)
         applied_promo = PROMO_CODE
-        promo_usage_count += 1
 
-    final_total = round(calculated_total - applied_discount, 2)
+    final_total = round(calculated_total - applied_discount + DELIVERY_COST_RUB, 2)
+    if abs(order.total_amount - final_total) > 0.01:
+        raise HTTPException(
+            status_code=400,
+            detail="Итоговая сумма заказа не совпадает с серверным расчетом",
+        )
+
     items_str = "\n".join(
         f"• {safe(item.title)} x{item.quantity} — {item.price * item.quantity:.2f}₽"
         + (f"\n  <i>Состав: {safe(item.composition)}</i>" if item.composition else "")
@@ -158,13 +167,27 @@ async def create_order(order: Order):
         f"<b>Товары:</b>\n{items_str}\n\n"
         + (f"<b>Промокод:</b> {safe(applied_promo)} (-{PROMO_DISCOUNT_PERCENT}%)\n" if applied_promo else "")
         + (f"<b>Скидка:</b> -{applied_discount:.2f}₽\n" if applied_discount else "")
+        + f"<b>Доставка:</b> {DELIVERY_COST_RUB:.2f}₽\n"
         + f"<b>Итого:</b> {final_total:.2f}₽"
     )
 
-    await send_telegram_message(message)
+    if applied_promo:
+        async with promo_lock:
+            if promo_usage_count >= PROMO_MAX_USES:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Промокод больше недоступен (лимит исчерпан)",
+                )
+            await send_telegram_message(message)
+            promo_usage_count += 1
+    else:
+        await send_telegram_message(message)
+
     return {
         "ok": True,
         "message": "Order sent to Telegram",
+        "items_total": calculated_total,
+        "delivery_cost": DELIVERY_COST_RUB,
         "total_amount": final_total,
         "discount": applied_discount,
         "promo_applied": bool(applied_promo),
